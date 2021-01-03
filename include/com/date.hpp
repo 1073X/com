@@ -17,7 +17,6 @@ class date : public date_base {
 
     std::tuple<rep, rep, rep> civil_from_days() const;
 };
-static_assert(sizeof(int32_t) == sizeof(date));
 
 }    // namespace miu::com
 

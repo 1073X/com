@@ -6,6 +6,8 @@
 
 namespace miu::com {
 
+static_assert(sizeof(int64_t) == sizeof(microseconds));
+
 static microseconds
 cast(std::string_view str) {
     auto c2i = [](char c) {

@@ -7,6 +7,8 @@
 
 namespace miu::com {
 
+static_assert(sizeof(int32_t) == sizeof(date));
+
 static date
 cast(std::string_view str) {
     auto c2i = [](char c) {
