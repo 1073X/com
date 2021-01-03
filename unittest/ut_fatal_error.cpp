@@ -7,7 +7,10 @@ TEST(ut_fatal_error, what) {
     EXPECT_STREQ("message", exp.what());
 }
 
-TEST(ut_fatal_error, throw) {
+TEST(ut_fatal_error, shortcut) {
     EXPECT_THROW(FATAL_ERROR("message"), miu::com::fatal_error);
     EXPECT_THROW(FATAL_ERROR("message"), std::runtime_error);
 }
+
+TEST(ut_fatal_error, multiple_messages) {}
+
