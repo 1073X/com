@@ -17,6 +17,13 @@ daytime::daytime(rep hours, rep minutes, rep seconds, rep microsec)
 daytime::daytime(std::string_view v)
     : daytime(duration { v }) {}
 
+daytime
+daytime::now() {
+    using namespace std::chrono_literals;
+    auto time = std::chrono::system_clock::now();
+    return { time.time_since_epoch() % 24h };
+}
+
 }    // namespace miu::com
 
 namespace std {

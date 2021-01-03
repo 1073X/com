@@ -21,6 +21,8 @@ class daytime : public daytime_base {
     daytime(daytime_base::duration = { 0 });
     daytime(rep hours, rep minutes, rep seconds, rep microsec);
     daytime(std::string_view);    // HH:MM:SS.ffffff
+
+    static daytime now();
 };
 
 }    // namespace miu::com

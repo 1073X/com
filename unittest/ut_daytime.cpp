@@ -2,6 +2,7 @@
 
 #include "com/daytime.hpp"
 
+using namespace std::chrono_literals;
 using miu::com::daytime;
 using miu::com::microseconds;
 
@@ -33,4 +34,12 @@ TEST(ut_daytime, to_string) {
     EXPECT_EQ("06:12:33.099999", std::to_string(time));
 
     EXPECT_EQ("00:00:00.000000", std::to_string(daytime()));
+}
+
+TEST(ut_daytime, now) {
+    auto t1 = daytime::now().time_since_epoch();
+    auto t2 = std::chrono::system_clock::now().time_since_epoch();
+    EXPECT_GT(1ms, t2 % 24h - t1);
+
+    std::cout << std::to_string(t1) << std::endl;
 }
