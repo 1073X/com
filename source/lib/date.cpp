@@ -22,7 +22,7 @@ cast(std::string_view str) {
     return date { year, month, day };
 }
 
-date::date(rep val)
+date::date(duration val)
     : date_base(val) {}
 
 date::date(rep years, rep months, rep days)
