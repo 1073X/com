@@ -8,6 +8,9 @@ namespace miu::com {
 
 class fatal_error : public std::runtime_error {
   public:
+    fatal_error()
+        : std::runtime_error("FATAL") {}
+
     template<typename... ARGS>
     fatal_error(ARGS&&... args)
         : std::runtime_error(
