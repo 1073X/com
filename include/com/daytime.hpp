@@ -23,6 +23,9 @@ class daytime : public daytime_base {
     daytime(std::string_view);    // HH:MM:SS.ffffff
 
     static daytime now();
+    static daytime min();
+    static daytime max();
+    static daytime zero();
 };
 
 }    // namespace miu::com

@@ -14,6 +14,8 @@ class date : public date_base {
     date(std::string_view yyyymmdd);
 
     static date today();
+    static date min();
+    static date zero();
 
     std::tuple<rep, rep, rep> civil_from_days() const;
 };

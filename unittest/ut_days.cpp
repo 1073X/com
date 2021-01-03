@@ -18,3 +18,9 @@ TEST(ut_days, create_from_other_duration) {
     auto val = days { std::chrono::hours(49) };
     EXPECT_EQ(2, val.count());
 }
+
+TEST(ut_days, extreme) {
+    EXPECT_EQ(std::numeric_limits<int32_t>::lowest(), days::min().count());
+    EXPECT_EQ(std::numeric_limits<int32_t>::max(), days::max().count());
+    EXPECT_EQ(0, days::zero().count());
+}

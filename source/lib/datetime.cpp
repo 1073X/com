@@ -37,6 +37,15 @@ datetime::now() {
     return { time.time_since_epoch() };
 }
 
+datetime
+datetime::zero() {
+    return datetime();
+}
+datetime
+datetime::min() {
+    return zero();
+}
+
 class date
 datetime::date() const {
     return { time_since_epoch() / days_base(1) };

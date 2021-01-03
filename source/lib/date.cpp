@@ -43,6 +43,16 @@ date::today() {
     return date { sec / day };
 }
 
+date
+date::zero() {
+    return date();
+}
+
+date
+date::min() {
+    return zero();
+}
+
 std::tuple<date::rep, date::rep, date::rep>
 date::civil_from_days() const {
     return miu::com::civil_from_days(time_since_epoch().count());

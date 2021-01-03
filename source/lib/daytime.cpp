@@ -26,6 +26,21 @@ daytime::now() {
     return { time.time_since_epoch() % 24h };
 }
 
+daytime
+daytime::zero() {
+    return daytime();
+}
+
+daytime
+daytime::min() {
+    return zero();
+}
+
+daytime
+daytime::max() {
+    return { 24, 0, 0, 0 };
+}
+
 }    // namespace miu::com
 
 namespace std {

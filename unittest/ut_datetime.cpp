@@ -48,3 +48,9 @@ TEST(ut_datetime, time_offset) {
 
     time_offset::set(0);
 }
+
+TEST(ut_datetime, extreme) {
+    EXPECT_EQ(datetime(1970, 1, 1, 0, 0, 0, 0), datetime::zero());
+    EXPECT_EQ(datetime(1970, 1, 1, 0, 0, 0, 0), datetime::min());
+    EXPECT_EQ(std::numeric_limits<int64_t>::max(), datetime::max().time_since_epoch().count());
+}

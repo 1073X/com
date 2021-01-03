@@ -53,3 +53,9 @@ TEST(ut_daytime, time_offset) {
 
     time_offset::set(0);
 }
+
+TEST(ut_daytime, extreme) {
+    EXPECT_EQ(daytime(0, 0, 0, 0), daytime::min());
+    EXPECT_EQ(daytime(24, 0, 0, 0), daytime::max());
+    EXPECT_EQ(daytime(0, 0, 0, 0), daytime::zero());
+}

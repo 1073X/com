@@ -29,3 +29,9 @@ TEST(ut_microseconds, create_from_string) {
     auto val = microseconds { "01:02:03.999999" };
     EXPECT_EQ(3600 * 1000000LL + 2 * 60 * 1000000LL + 3 * 1000000LL + 999999, val.count());
 }
+
+TEST(ut_microseconds, extreme) {
+    EXPECT_EQ(std::numeric_limits<int64_t>::lowest(), microseconds::min().count());
+    EXPECT_EQ(std::numeric_limits<int64_t>::max(), microseconds::max().count());
+    EXPECT_EQ(0, microseconds::zero().count());
+}

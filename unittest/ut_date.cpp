@@ -32,3 +32,9 @@ TEST(ut_date, today) {
 
     EXPECT_EQ(today, val.time_since_epoch());
 }
+
+TEST(ut_date, extreme) {
+    EXPECT_EQ(date(1970, 1, 1), date::min());
+    EXPECT_EQ(std::numeric_limits<int32_t>::max(), date::max().time_since_epoch().count());
+    EXPECT_EQ(date(1970, 1, 1), date::zero());
+}

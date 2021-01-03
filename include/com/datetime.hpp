@@ -20,6 +20,8 @@ class datetime : public datetime_base {
     datetime(std::string_view);
 
     static datetime now();
+    static datetime min();
+    static datetime zero();
 
     class date date() const;
     daytime time() const;
