@@ -9,7 +9,11 @@ namespace miu::com {
 
 static date
 cast(std::string_view str) {
-    auto c2i = [](char ch) { return ch - '0'; };
+    auto c2i = [](char c) {
+        assert(std::isdigit(c));
+        return c - '0';
+    };
+
     auto year = c2i(str[0]) * 1000 + c2i(str[1]) * 100 + c2i(str[2]) * 10 + c2i(str[3]);
     auto month = c2i(str[4]) * 10 + c2i(str[5]);
     auto day = c2i(str[6]) * 10 + c2i(str[7]);

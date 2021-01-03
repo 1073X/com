@@ -6,14 +6,8 @@
 
 namespace miu::com {
 
-microseconds
-microseconds::create(rep hours, rep minutes, rep seconds, rep microsec) {
-    rep total_sec = hours * 3600 + minutes * 60 + seconds;
-    return { total_sec * 1000000 + microsec };
-}
-
-microseconds
-microseconds::create(std::string_view str) {
+static microseconds
+cast(std::string_view str) {
     auto c2i = [](char c) {
         assert(std::isdigit(c));
         return c - '0';
@@ -25,7 +19,13 @@ microseconds::create(std::string_view str) {
     auto microsec = c2i(str[9]) * 100000 + c2i(str[10]) * 10000 + c2i(str[11]) * 1000
                     + c2i(str[12]) * 100 + c2i(str[13]) * 10 + c2i(str[14]);
 
-    return create(hours, minutes, seconds, microsec);
+    return { hours, minutes, seconds, microsec };
 }
+
+microseconds::microseconds(rep hours, rep minutes, rep seconds, rep microsec)
+    : microseconds { (hours * 3600 + minutes * 60 + seconds) * 1000000 + microsec } {}
+
+microseconds::microseconds(std::string_view str)
+    : microseconds(cast(str)) {}
 
 }    // namespace miu::com

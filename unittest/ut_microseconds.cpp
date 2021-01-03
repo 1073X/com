@@ -21,11 +21,11 @@ TEST(ut_microseconds, create_from_other_duration) {
 }
 
 TEST(ut_microseconds, create_from_components) {
-    auto val = microseconds::create(1, 2, 3, 123);
+    auto val = microseconds { 1, 2, 3, 123 };
     EXPECT_EQ(3600 * 1000000LL + 2 * 60 * 1000000LL + 3 * 1000000LL + 123, val.count());
 }
 
 TEST(ut_microseconds, create_from_string) {
-    auto val = microseconds::create("01:02:03.999999");
+    auto val = microseconds { "01:02:03.999999" };
     EXPECT_EQ(3600 * 1000000LL + 2 * 60 * 1000000LL + 3 * 1000000LL + 999999, val.count());
 }
