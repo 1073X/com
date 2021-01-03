@@ -18,4 +18,3 @@ TEST(ut_days, create_from_other_duration) {
     auto val = days { std::chrono::hours(49) };
     EXPECT_EQ(2, val.count());
 }
-

@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <string>    // std::to_string
+#include <utility>
 
 namespace miu::com {
 
@@ -26,8 +27,8 @@ class strcat {
     };
 
   public:
-    explicit strcat(delimiter const& del = { "." })
-        : _delimiter { del } {}
+    explicit strcat(delimiter del = { "." })
+        : _delimiter { std::move(del) } {}
 
     template<typename T, typename... ARGS>
     strcat(T const& t, ARGS&&... args)

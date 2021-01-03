@@ -12,7 +12,7 @@ class days : public days_base {
 
     template<typename R, typename P>
     days(std::chrono::duration<R, P> const& du)
-        : days_base(std::chrono::duration_cast<days_base>(du)) {}
+        : days(std::chrono::duration_cast<days_base>(du).count()) {}
 };
 
 }    // namespace miu::com

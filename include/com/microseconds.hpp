@@ -5,15 +5,14 @@
 
 namespace miu::com {
 
-using microseconds_base = std::chrono::duration<int64_t, std::ratio<1, 1000000>>;
-class microseconds : public microseconds_base {
+class microseconds : public std::chrono::microseconds {
   public:
     microseconds(rep val = 0)
-        : microseconds_base(val) {}
+        : std::chrono::microseconds(val) {}
 
     template<typename R, typename P>
     microseconds(std::chrono::duration<R, P> const& du)
-        : microseconds(std::chrono::duration_cast<microseconds_base>(du).count()) {}
+        : microseconds(std::chrono::duration_cast<std::chrono::microseconds>(du).count()) {}
 
     static microseconds create(rep hours, rep minutes, rep seconds, rep microsec);
     static microseconds create(std::string_view);    // HH:MM:SS.ffffff
