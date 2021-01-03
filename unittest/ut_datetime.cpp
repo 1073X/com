@@ -1,10 +1,12 @@
 #include <gtest/gtest.h>
 
 #include "com/datetime.hpp"
+#include "com/time_offset.hpp"
 
 using namespace std::chrono_literals;
 using miu::com::datetime;
 using miu::com::microseconds;
+using miu::com::time_offset;
 
 TEST(ut_datetime, default_ctor) {
     datetime val;
@@ -32,7 +34,17 @@ TEST(ut_datetime, create_from_string) {
 }
 
 TEST(ut_datetime, now) {
-    auto t1 = datetime::now().time_since_epoch();
-    auto t2 = std::chrono::system_clock::now().time_since_epoch();
+    auto t1 = std::chrono::system_clock::now().time_since_epoch();
+    auto t2 = datetime::now().time_since_epoch();
     EXPECT_GT(1ms, t2 - t1);
+}
+
+TEST(ut_datetime, time_offset) {
+    time_offset::set(8h);
+
+    microseconds t1 = std::chrono::system_clock::now().time_since_epoch();
+    microseconds t2 = datetime::now().time_since_epoch();
+    EXPECT_LE(8h, t2 - t1);
+
+    time_offset::set(0);
 }

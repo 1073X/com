@@ -1,6 +1,8 @@
 
 #include "com/datetime.hpp"
 
+#include "com/time_offset.hpp"
+
 namespace miu::com {
 
 static datetime
@@ -31,7 +33,8 @@ datetime::datetime(std::string_view v)
 
 datetime
 datetime::now() {
-    return { clock::now().time_since_epoch() };
+    auto time = clock::now() + time_offset::get();
+    return { time.time_since_epoch() };
 }
 
 class date

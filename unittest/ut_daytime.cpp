@@ -1,10 +1,12 @@
 #include <gtest/gtest.h>
 
 #include "com/daytime.hpp"
+#include "com/time_offset.hpp"
 
 using namespace std::chrono_literals;
 using miu::com::daytime;
 using miu::com::microseconds;
+using miu::com::time_offset;
 
 TEST(ut_daytime, defalut_zero) {
     daytime time;
@@ -40,6 +42,14 @@ TEST(ut_daytime, now) {
     auto t1 = daytime::now().time_since_epoch();
     auto t2 = std::chrono::system_clock::now().time_since_epoch();
     EXPECT_GT(1ms, t2 % 24h - t1);
+}
 
-    std::cout << std::to_string(t1) << std::endl;
+TEST(ut_daytime, time_offset) {
+    time_offset::set(-8h);
+
+    microseconds t1 = daytime::now().time_since_epoch();
+    microseconds t2 = std::chrono::system_clock::now().time_since_epoch() - 8h;
+    EXPECT_EQ(t1.count() / 1000, (t2 % 24h).count() / 1000);
+
+    time_offset::set(0);
 }

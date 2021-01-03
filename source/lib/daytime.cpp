@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <sstream>
 
+#include "com/time_offset.hpp"
+
 namespace miu::com {
 
 static_assert(sizeof(int64_t) == sizeof(daytime));
@@ -20,7 +22,7 @@ daytime::daytime(std::string_view v)
 daytime
 daytime::now() {
     using namespace std::chrono_literals;
-    auto time = std::chrono::system_clock::now();
+    auto time = std::chrono::system_clock::now() + time_offset::get();
     return { time.time_since_epoch() % 24h };
 }
 
