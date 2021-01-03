@@ -2,6 +2,7 @@
 
 #include "com/datetime.hpp"
 
+using namespace std::chrono_literals;
 using miu::com::datetime;
 using miu::com::microseconds;
 
@@ -28,4 +29,10 @@ TEST(ut_datetime, create_from_string) {
     auto val = datetime { "20210103 19:15:30.000123" };
     EXPECT_EQ(miu::com::date(2021, 1, 3), val.date());
     EXPECT_EQ(miu::com::daytime(19, 15, 30, 123), val.time());
+}
+
+TEST(ut_datetime, now) {
+    auto t1 = datetime::now().time_since_epoch();
+    auto t2 = std::chrono::system_clock::now().time_since_epoch();
+    EXPECT_GT(1ms, t2 - t1);
 }

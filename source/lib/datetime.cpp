@@ -29,6 +29,11 @@ datetime::datetime(date::rep year,
 datetime::datetime(std::string_view v)
     : datetime(cast(v)) {}
 
+datetime
+datetime::now() {
+    return { clock::now().time_since_epoch() };
+}
+
 class date
 datetime::date() const {
     return { time_since_epoch() / days_base(1) };

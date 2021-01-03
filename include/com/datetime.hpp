@@ -19,6 +19,8 @@ class datetime : public datetime_base {
              daytime::rep microsec);
     datetime(std::string_view);
 
+    static datetime now();
+
     class date date() const;
     daytime time() const;
 };
