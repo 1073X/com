@@ -4,14 +4,24 @@
 #include <iomanip>
 #include <sstream>
 
+#include "com/fatal_error.hpp"
 #include "com/time_offset.hpp"
+
+using namespace std::chrono_literals;
 
 namespace miu::com {
 
 static_assert(sizeof(int64_t) == sizeof(daytime));
 
+static microseconds const MIN_VAL {};
+static microseconds const MAX_VAL { 24h - 1us };
+
 daytime::daytime(duration v)
-    : daytime_base(v.count()) {}
+    : daytime_base(v.count()) {
+    if (v < MIN_VAL || v > MAX_VAL) {
+        FATAL_ERROR("daytime overflow. duration =", v.count());
+    }
+}
 
 daytime::daytime(rep hours, rep minutes, rep seconds, rep microsec)
     : daytime((3600 * hours + 60 * minutes + seconds) * 1000000LL + microsec) {}
@@ -28,17 +38,17 @@ daytime::now() {
 
 daytime
 daytime::zero() {
-    return daytime();
+    return MIN_VAL;
 }
 
 daytime
 daytime::min() {
-    return zero();
+    return MIN_VAL;
 }
 
 daytime
 daytime::max() {
-    return { 24, 0, 0, 0 };
+    return MAX_VAL;
 }
 
 }    // namespace miu::com

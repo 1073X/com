@@ -19,6 +19,8 @@ TEST(ut_daytime, create_from_duration) {
 
     auto time2 = daytime { std::chrono::seconds(1) };
     EXPECT_EQ(microseconds(1000000), time2.time_since_epoch());
+
+    EXPECT_ANY_THROW(daytime(microseconds(-1)));
 }
 
 TEST(ut_daytime, create_from_components) {
@@ -59,6 +61,6 @@ TEST(ut_daytime, time_offset) {
 
 TEST(ut_daytime, extreme) {
     EXPECT_EQ(daytime(0, 0, 0, 0), daytime::min());
-    EXPECT_EQ(daytime(24, 0, 0, 0), daytime::max());
+    EXPECT_EQ(daytime(23, 59, 59, 999999), daytime::max());
     EXPECT_EQ(daytime(0, 0, 0, 0), daytime::zero());
 }
