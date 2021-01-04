@@ -19,16 +19,30 @@ TEST(ut_daytime, create_from_duration) {
 
     auto time2 = daytime { std::chrono::seconds(1) };
     EXPECT_EQ(microseconds(1000000), time2.time_since_epoch());
+
+    EXPECT_ANY_THROW(daytime(microseconds(-1)));
 }
 
 TEST(ut_daytime, create_from_components) {
     auto time = daytime { 12, 10, 11, 123 };
     EXPECT_EQ((12 * 3600 + 10 * 60 + 11) * 1000000LL + 123, time.time_since_epoch().count());
+
+    // illegal value
+    EXPECT_ANY_THROW(daytime(24, 0, 0, 0));
+    EXPECT_ANY_THROW(daytime(1, 60, 0, 0));
+    EXPECT_ANY_THROW(daytime(1, -1, 0, 0));
+    EXPECT_ANY_THROW(daytime(1, 0, 60, 0));
+    EXPECT_ANY_THROW(daytime(1, 0, -1, 0));
+    EXPECT_ANY_THROW(daytime(1, 0, 0, 1000000));
+    EXPECT_ANY_THROW(daytime(1, 0, 0, -1));
 }
 
 TEST(ut_daytime, create_from_string) {
     auto time = daytime { "12:10:11.000123" };
     EXPECT_EQ((12 * 3600 + 10 * 60 + 11) * 1000000LL + 123, time.time_since_epoch().count());
+
+    // illegal hours
+    EXPECT_ANY_THROW(daytime("24:00:00.000000"));
 }
 
 TEST(ut_daytime, to_string) {
@@ -56,6 +70,6 @@ TEST(ut_daytime, time_offset) {
 
 TEST(ut_daytime, extreme) {
     EXPECT_EQ(daytime(0, 0, 0, 0), daytime::min());
-    EXPECT_EQ(daytime(24, 0, 0, 0), daytime::max());
+    EXPECT_EQ(daytime(23, 59, 59, 999999), daytime::max());
     EXPECT_EQ(daytime(0, 0, 0, 0), daytime::zero());
 }

@@ -1,7 +1,10 @@
+
 #include "com/date.hpp"
 
 #include <iomanip>
 #include <sstream>
+
+#include "com/fatal_error.hpp"
 
 #include "civil_time.hpp"
 
@@ -12,21 +15,27 @@ static_assert(sizeof(int32_t) == sizeof(date));
 static date
 cast(std::string_view str) {
     auto c2i = [](char c) {
-        assert(std::isdigit(c));
+        if (!std::isdigit(c)) {
+            FATAL_ERROR(c, "is not a digit in date string");
+        }
         return c - '0';
     };
 
-    auto year = c2i(str[0]) * 1000 + c2i(str[1]) * 100 + c2i(str[2]) * 10 + c2i(str[3]);
-    auto month = c2i(str[4]) * 10 + c2i(str[5]);
+    auto yrs = c2i(str[0]) * 1000 + c2i(str[1]) * 100 + c2i(str[2]) * 10 + c2i(str[3]);
+    auto mon = c2i(str[4]) * 10 + c2i(str[5]);
     auto day = c2i(str[6]) * 10 + c2i(str[7]);
-    return date { year, month, day };
+    return date { yrs, mon, day };
 }
 
 date::date(duration val)
     : date_base(val) {}
 
-date::date(rep years, rep months, rep days)
-    : date(miu::com::days_from_civil(years, months, days)) {}
+date::date(rep yrs, rep mon, rep day)
+    : date(miu::com::days_from_civil(yrs, mon, day)) {
+    if (yrs < 1970 || yrs > 9999 || !mon || mon > 12 || !day || day > 31) {
+        FATAL_ERROR("illegal date components", yrs, mon, day);
+    }
+}
 
 date::date(std::string_view yyyymmdd)
     : date(cast(yyyymmdd)) {}

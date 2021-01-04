@@ -20,14 +20,21 @@ TEST(ut_microseconds, create_from_other_duration) {
     EXPECT_EQ(1000000, val.count());
 }
 
-TEST(ut_microseconds, create_from_components) {
-    auto val = microseconds { 1, 2, 3, 123 };
-    EXPECT_EQ(3600 * 1000000LL + 2 * 60 * 1000000LL + 3 * 1000000LL + 123, val.count());
+TEST(ut_microseconds, create_from_string) {
+    auto val = microseconds { "25:02:03.999999" };
+    EXPECT_EQ((25 * 3600 + 2 * 60 + 3) * 1000000LL + 999999, val.count());
+
+    // illegal strings
+    EXPECT_ANY_THROW(microseconds("1:02:03.999999"));
+    EXPECT_ANY_THROW(microseconds("01:02:03.99999"));
+    // illegal value
+    EXPECT_ANY_THROW(microseconds("01:60:11.000123"));
+    EXPECT_ANY_THROW(microseconds("12:10:60.000123"));
 }
 
-TEST(ut_microseconds, create_from_string) {
-    auto val = microseconds { "01:02:03.999999" };
-    EXPECT_EQ(3600 * 1000000LL + 2 * 60 * 1000000LL + 3 * 1000000LL + 999999, val.count());
+TEST(ut_microseconds, to_string) {
+    auto str = "01:02:03.999999";
+    EXPECT_EQ(str, std::to_string(microseconds { str }));
 }
 
 TEST(ut_microseconds, extreme) {

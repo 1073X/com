@@ -4,17 +4,31 @@
 #include <iomanip>
 #include <sstream>
 
+#include "com/fatal_error.hpp"
 #include "com/time_offset.hpp"
+
+using namespace std::chrono_literals;
 
 namespace miu::com {
 
 static_assert(sizeof(int64_t) == sizeof(daytime));
 
-daytime::daytime(duration v)
-    : daytime_base(v.count()) {}
+static microseconds const MIN_VAL {};
+static microseconds const MAX_VAL { 24h - 1us };
 
-daytime::daytime(rep hours, rep minutes, rep seconds, rep microsec)
-    : daytime((3600 * hours + 60 * minutes + seconds) * 1000000LL + microsec) {}
+daytime::daytime(duration v)
+    : daytime_base(v.count()) {
+    if (v < MIN_VAL || v > MAX_VAL) {
+        FATAL_ERROR("daytime overflow. duration =", v.count());
+    }
+}
+
+daytime::daytime(rep hrs, rep min, rep sec, rep us)
+    : daytime((3600 * hrs + 60 * min + sec) * 1000000LL + us) {
+    if (min < 0 || min >= 60 || sec < 0 || sec >= 60 || us < 0 || us > 999999) {
+        FATAL_ERROR("illegal daytime components", hrs, min, sec, us);
+    }
+}
 
 daytime::daytime(std::string_view v)
     : daytime(duration { v }) {}
@@ -28,17 +42,17 @@ daytime::now() {
 
 daytime
 daytime::zero() {
-    return daytime();
+    return MIN_VAL;
 }
 
 daytime
 daytime::min() {
-    return zero();
+    return MIN_VAL;
 }
 
 daytime
 daytime::max() {
-    return { 24, 0, 0, 0 };
+    return MAX_VAL;
 }
 
 }    // namespace miu::com
@@ -47,18 +61,7 @@ namespace std {
 
 string
 to_string(miu::com::daytime time) {
-    auto epoch = time.time_since_epoch().count();
-    auto hrs = epoch / (3600 * 1000000LL);
-    auto min = (epoch % (3600 * 1000000LL)) / (60 * 1000000);
-    auto sec = (epoch % (60 * 1000000LL)) / 1000000;
-    auto microsec = epoch % 1000000;
-
-    std::ostringstream ss;
-    ss << std::setw(2) << std::setfill('0') << hrs;
-    ss << ':' << std::setw(2) << std::setfill('0') << min;
-    ss << ':' << std::setw(2) << std::setfill('0') << sec;
-    ss << '.' << std::setw(6) << std::setfill('0') << microsec;
-    return ss.str();
+    return to_string(time.time_since_epoch());
 }
 
 }    // namespace std

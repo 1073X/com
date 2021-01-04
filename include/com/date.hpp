@@ -10,7 +10,7 @@ using date_base = std::chrono::time_point<std::chrono::system_clock, days>;
 class date : public date_base {
   public:
     date(duration = { 0 });
-    date(rep years, rep months, rep days);
+    date(rep yrs, rep mon, rep day);
     date(std::string_view yyyymmdd);
 
     static date today();
