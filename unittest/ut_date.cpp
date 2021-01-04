@@ -12,11 +12,23 @@ TEST(ut_date, default) {
 TEST(ut_date, create_from_components) {
     auto val = date { 2021, 1, 3 };
     EXPECT_EQ(std::make_tuple(2021, 1, 3), val.civil_from_days());
+
+    // illegal value
+    EXPECT_ANY_THROW(date(1969, 1, 3));
+    EXPECT_ANY_THROW(date(10000, 1, 3));
+    EXPECT_ANY_THROW(date(2021, 0, 3));
+    EXPECT_ANY_THROW(date(2021, 13, 3));
+    EXPECT_ANY_THROW(date(2021, 1, 0));
+    EXPECT_ANY_THROW(date(2021, 1, 32));
 }
 
 TEST(ut_date, create_from_string) {
     auto val = date { "20210103" };
     EXPECT_EQ(std::make_tuple(2021, 1, 3), val.civil_from_days());
+
+    // illegal string
+    EXPECT_ANY_THROW(date("2020123"));
+    EXPECT_ANY_THROW(date("202a1231"));
 }
 
 TEST(ut_date, to_string) {
