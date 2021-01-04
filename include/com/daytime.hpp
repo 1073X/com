@@ -19,7 +19,7 @@ using daytime_base = std::chrono::time_point<daytime_clock>;
 class daytime : public daytime_base {
   public:
     daytime(daytime_base::duration = { 0 });
-    daytime(rep hours, rep minutes, rep seconds, rep microsec);
+    daytime(rep hrs, rep min, rep sec, rep us);
     daytime(std::string_view);    // HH:MM:SS.ffffff
 
     static daytime now();

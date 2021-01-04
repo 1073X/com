@@ -26,6 +26,15 @@ TEST(ut_daytime, create_from_duration) {
 TEST(ut_daytime, create_from_components) {
     auto time = daytime { 12, 10, 11, 123 };
     EXPECT_EQ((12 * 3600 + 10 * 60 + 11) * 1000000LL + 123, time.time_since_epoch().count());
+
+    // illegal value
+    EXPECT_ANY_THROW(daytime(24, 0, 0, 0));
+    EXPECT_ANY_THROW(daytime(1, 60, 0, 0));
+    EXPECT_ANY_THROW(daytime(1, -1, 0, 0));
+    EXPECT_ANY_THROW(daytime(1, 0, 60, 0));
+    EXPECT_ANY_THROW(daytime(1, 0, -1, 0));
+    EXPECT_ANY_THROW(daytime(1, 0, 0, 1000000));
+    EXPECT_ANY_THROW(daytime(1, 0, 0, -1));
 }
 
 TEST(ut_daytime, create_from_string) {

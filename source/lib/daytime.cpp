@@ -23,8 +23,12 @@ daytime::daytime(duration v)
     }
 }
 
-daytime::daytime(rep hours, rep minutes, rep seconds, rep microsec)
-    : daytime((3600 * hours + 60 * minutes + seconds) * 1000000LL + microsec) {}
+daytime::daytime(rep hrs, rep min, rep sec, rep us)
+    : daytime((3600 * hrs + 60 * min + sec) * 1000000LL + us) {
+    if (min < 0 || min >= 60 || sec < 0 || sec >= 60 || us < 0 || us > 999999) {
+        FATAL_ERROR("illegal daytime components", hrs, min, sec, us);
+    }
+}
 
 daytime::daytime(std::string_view v)
     : daytime(duration { v }) {}
