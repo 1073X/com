@@ -29,6 +29,9 @@ TEST(ut_daytime, create_from_components) {
 TEST(ut_daytime, create_from_string) {
     auto time = daytime { "12:10:11.000123" };
     EXPECT_EQ((12 * 3600 + 10 * 60 + 11) * 1000000LL + 123, time.time_since_epoch().count());
+
+    // illegal hours
+    EXPECT_ANY_THROW(daytime("24:00:00.000000"));
 }
 
 TEST(ut_daytime, to_string) {
