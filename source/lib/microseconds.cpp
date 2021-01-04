@@ -4,6 +4,8 @@
 #include <cassert>
 #include <cctype>    // std::isdigit
 
+#include "com/fatal_error.hpp"
+
 namespace miu::com {
 
 static_assert(sizeof(int64_t) == sizeof(microseconds));
@@ -11,7 +13,9 @@ static_assert(sizeof(int64_t) == sizeof(microseconds));
 static microseconds
 cast(std::string_view str) {
     auto c2i = [](char c) {
-        assert(std::isdigit(c));
+        if (!std::isdigit(c)) {
+            FATAL_ERROR(c, "is not a digit");
+        }
         return c - '0';
     };
 

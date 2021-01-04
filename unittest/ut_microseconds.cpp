@@ -28,6 +28,9 @@ TEST(ut_microseconds, create_from_components) {
 TEST(ut_microseconds, create_from_string) {
     auto val = microseconds { "01:02:03.999999" };
     EXPECT_EQ(3600 * 1000000LL + 2 * 60 * 1000000LL + 3 * 1000000LL + 999999, val.count());
+
+    EXPECT_ANY_THROW(microseconds("1:02:03.999999"));
+    EXPECT_ANY_THROW(microseconds("01:02:03.99999"));
 }
 
 TEST(ut_microseconds, extreme) {
