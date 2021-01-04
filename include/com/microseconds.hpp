@@ -14,8 +14,11 @@ class microseconds : public std::chrono::microseconds {
     microseconds(std::chrono::duration<R, P> const& du)
         : microseconds(std::chrono::duration_cast<std::chrono::microseconds>(du).count()) {}
 
-    microseconds(rep hours, rep minutes, rep seconds, rep microsec);
     microseconds(std::string_view);    // HH:MM:SS.ffffff
 };
 
 }    // namespace miu::com
+
+namespace std {
+string to_string(miu::com::microseconds);    // HH:MM:SS.ffffff
+}
