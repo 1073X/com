@@ -19,6 +19,9 @@ class ring_buffer {
         }
     }
 
+    ring_buffer(ring_buffer const&) = delete;
+    auto operator=(ring_buffer const&) = delete;
+
     auto capacity() const { return _vec.size(); }
 
     auto size() const {
@@ -43,7 +46,7 @@ class ring_buffer {
         _head.fetch_add(cnt, std::memory_order_release);
     }
 
-    auto operator[](uint32_t idx) const {
+    T& operator[](uint32_t idx) {
         auto head = _head.load(std::memory_order_relaxed);
         assert(_tail - head >= idx && "overflow");
         return _vec[to_idx(head + idx)];
