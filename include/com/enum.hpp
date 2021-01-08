@@ -4,12 +4,12 @@
 
 namespace miu::com {
 
-template<typename T>
-T
-to_enum(std::string_view str) {
-    auto opt = magic_enum::enum_cast<T>(str);
+template<typename ENUM, typename T>
+ENUM
+to_enum(T val) {
+    auto opt = magic_enum::enum_cast<ENUM>(val);
     if (!opt.has_value()) {
-        return T::MAX;
+        return ENUM::MAX;
     }
     return opt.value();
 }
