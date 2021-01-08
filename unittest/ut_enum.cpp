@@ -13,3 +13,11 @@ TEST_F(ut_enum, to_string) {
 
     EXPECT_STREQ("MAX", std::to_string(enumeration(99)));
 }
+
+TEST_F(ut_enum, to_enum) {
+    EXPECT_EQ(enumeration::VAL1, miu::com::to_enum<enumeration>("VAL1"));
+    EXPECT_EQ(enumeration::VAL2, miu::com::to_enum<enumeration>("VAL2"));
+    EXPECT_EQ(enumeration::MAX, miu::com::to_enum<enumeration>("MAX"));
+
+    EXPECT_EQ(enumeration::MAX, miu::com::to_enum<enumeration>("not_exists"));
+}

@@ -2,6 +2,20 @@
 
 #include <magic_enum.hpp>
 
+namespace miu::com {
+
+template<typename T>
+T
+to_enum(std::string_view str) {
+    auto opt = magic_enum::enum_cast<T>(str);
+    if (!opt.has_value()) {
+        return T::MAX;
+    }
+    return opt.value();
+}
+
+}    // namespace miu::com
+
 namespace std {
 
 template<typename T>
