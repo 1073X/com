@@ -2,6 +2,7 @@
 
 #include <optional>
 
+#include "predict.hpp"
 #include "system_warn.hpp"
 #include "type_id.hpp"
 
@@ -23,7 +24,7 @@ class variant {
 
     template<typename T>
     std::optional<T> get() const {
-        if (type_id<T>::value != _id) {
+        if (UNLIKELY(type_id<T>::value != _id)) {
             SYSTEM_WARN("UNSUPPORTED", _id, ":some_type cannot be", type_id<T>::name);
             return std::nullopt;
         }

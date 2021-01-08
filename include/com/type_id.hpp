@@ -53,4 +53,3 @@ static const uint8_t CUSTOM_TYPE_ID = 32;
 DEF_TYPE_ID(void, 255);
 
 }    // namespace miu::com
-

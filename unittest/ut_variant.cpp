@@ -28,4 +28,3 @@ TEST(ut_variant, wcstr) {
     EXPECT_EQ(type_id<const wchar_t*>::value, val.id());
     EXPECT_EQ(str, val.get<const wchar_t*>());
 }
-
