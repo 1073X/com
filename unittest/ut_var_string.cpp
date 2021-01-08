@@ -27,4 +27,3 @@ TYPED_TEST(ut_var_string, test) {
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_EQ(std::string_view("abcdefg"), var.get<target_type>());
 }
-

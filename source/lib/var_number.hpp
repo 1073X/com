@@ -72,6 +72,7 @@ class var_number : public var_casting<target_type> {
     template<typename source_type>
     struct action<true, true, false, source_type> {
         static std::optional<target_type> cast(variant const* var) {
+            std::optional<target_type> opt = std::nullopt;
             auto val = *(source_type const*)var;
             if (val > std::numeric_limits<target_type>::max()) {
                 SYSTEM_WARN("OVERFLOW",
@@ -79,16 +80,16 @@ class var_number : public var_casting<target_type> {
                             (int64_t)val,
                             "cannot be",
                             type_id<target_type>::name);
-                return std::nullopt;
             } else if (val < std::numeric_limits<target_type>::min()) {
                 SYSTEM_WARN("UNDERFLOW",
                             type_id<source_type>::name,
                             (int64_t)val,
                             "cannot be",
                             type_id<target_type>::name);
-                return std::nullopt;
+            } else {
+                opt = val;
             }
-            return val;
+            return opt;
         }
     };
 
@@ -96,6 +97,7 @@ class var_number : public var_casting<target_type> {
     template<typename source_type>
     struct action<true, false, false, source_type> {
         static std::optional<target_type> cast(variant const* var) {
+            std::optional<target_type> opt = std::nullopt;
             auto val = *(source_type const*)var;
             if (val > std::numeric_limits<target_type>::max()) {
                 SYSTEM_WARN("OVERFLOW",
@@ -103,16 +105,16 @@ class var_number : public var_casting<target_type> {
                             (int64_t)val,
                             "cannot be",
                             type_id<target_type>::name);
-                return std::nullopt;
             } else if (val < 0) {
                 SYSTEM_WARN("NEGATIVE",
                             type_id<source_type>::name,
                             (int64_t)val,
                             "cannot be",
                             type_id<target_type>::name);
-                return std::nullopt;
+            } else {
+                opt = val;
             }
-            return val;
+            return opt;
         }
     };
 

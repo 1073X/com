@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include "var_casting.hpp"
 
 namespace miu::com {
