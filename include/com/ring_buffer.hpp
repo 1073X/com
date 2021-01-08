@@ -1,6 +1,7 @@
 #pragma once
 
 #include <atomic>
+#include <cassert>
 #include <vector>
 
 #include "fatal_error.hpp"
@@ -12,9 +13,9 @@ class ring_buffer {
   public:
     template<typename... ARGS>
     explicit ring_buffer(uint32_t cap, ARGS&&... args)
-        : _mask { cap - 1 }
+        : MASK { cap - 1 }
         , _vec(cap, T { std::forward<ARGS>(args)... }) {
-        if (cap & (cap & _mask)) {
+        if (!cap || cap & MASK) {
             FATAL_ERROR("ring_buffer size must be pow of 2");
         }
     }
@@ -53,7 +54,7 @@ class ring_buffer {
     }
 
   private:
-    inline uint32_t to_idx(uint32_t val) const { return val & _mask; }
+    inline uint32_t to_idx(uint32_t val) const { return val & MASK; }
 
     template<typename CB>
     bool try_add(CB const& cb) {
@@ -70,7 +71,7 @@ class ring_buffer {
     }
 
   private:
-    uint32_t const _mask;
+    uint32_t const MASK;
     std::atomic_uint _head { 0 };
     std::atomic_uint _tail { 0 };
     std::vector<T> _vec;
