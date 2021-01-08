@@ -2,11 +2,21 @@
 
 #include <optional>
 
+#include "date.hpp"
+#include "datetime.hpp"
+#include "daytime.hpp"
 #include "predict.hpp"
 #include "system_warn.hpp"
-#include "type_id.hpp"
 
 namespace miu::com {
+
+template<typename T = void>
+struct type_id {
+    static uint8_t constexpr value { 255 };
+    inline static const char* name { "255:void" };
+};
+
+static const uint8_t CUSTOM_TYPE_ID = 32;
 
 class variant {
   public:
@@ -23,21 +33,12 @@ class variant {
     }
 
     template<typename T>
-    std::optional<T> get() const {
-        if (UNLIKELY(type_id<T>::value != _id)) {
-            SYSTEM_WARN("UNSUPPORTED", _id, ":some_type cannot be", type_id<T>::name);
-            return std::nullopt;
-        }
-        return *(T const*)_value;
-    }
-
+    std::optional<T> get() const;
     auto id() const { return _id; }
 
   private:
     template<typename T>
-    void set(T const& v) {
-        new (_value) T { v };
-    }
+    void set(T const& v);
 
     auto extra() const { return _extra; }
 
@@ -48,35 +49,46 @@ class variant {
 };
 static_assert(sizeof(variant) == 16);
 
-template<>
-std::optional<bool> variant::get<bool>() const;
-
-template<>
-std::optional<int64_t> variant::get<int64_t>() const;
-template<>
-std::optional<int32_t> variant::get<int32_t>() const;
-template<>
-std::optional<int16_t> variant::get<int16_t>() const;
-template<>
-std::optional<int8_t> variant::get<int8_t>() const;
-
-template<>
-std::optional<uint64_t> variant::get<uint64_t>() const;
-template<>
-std::optional<uint32_t> variant::get<uint32_t>() const;
-template<>
-std::optional<uint16_t> variant::get<uint16_t>() const;
-template<>
-std::optional<uint8_t> variant::get<uint8_t>() const;
-
-template<>
-std::optional<float> variant::get<float>() const;
-template<>
-std::optional<double> variant::get<double>() const;
-
-template<>
-std::optional<const char*> variant::get<const char*>() const;
-template<>
-std::optional<std::string> variant::get<std::string>() const;
-
 }    // namespace miu::com
+
+#define DEF_VARIANT(TYPE, ID)                             \
+    template<>                                            \
+    struct miu::com::type_id<TYPE> {                      \
+        static uint8_t constexpr value { ID };            \
+        inline static const char* name { #ID ":" #TYPE }; \
+    };                                                    \
+    template<>                                            \
+    void miu::com::variant::set<TYPE>(TYPE const&);       \
+    template<>                                            \
+    std::optional<TYPE> miu::com::variant::get<TYPE>() const
+
+DEF_VARIANT(std::string, 0);
+DEF_VARIANT(std::string_view, 0);
+
+DEF_VARIANT(bool, 1);
+
+DEF_VARIANT(int8_t, 2);
+DEF_VARIANT(int16_t, 3);
+DEF_VARIANT(int32_t, 4);
+DEF_VARIANT(int64_t, 5);
+
+DEF_VARIANT(uint8_t, 6);
+DEF_VARIANT(uint16_t, 7);
+DEF_VARIANT(uint32_t, 8);
+DEF_VARIANT(uint64_t, 9);
+
+DEF_VARIANT(float, 10);
+DEF_VARIANT(double, 11);
+
+DEF_VARIANT(char, 12);
+DEF_VARIANT(const char*, 13);
+
+DEF_VARIANT(wchar_t, 14);
+DEF_VARIANT(const wchar_t*, 15);
+
+DEF_VARIANT(miu::com::microseconds, 16);
+DEF_VARIANT(miu::com::days, 17);
+DEF_VARIANT(miu::com::date, 18);
+DEF_VARIANT(miu::com::daytime, 19);
+DEF_VARIANT(miu::com::datetime, 20);
+

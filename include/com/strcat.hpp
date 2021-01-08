@@ -18,6 +18,7 @@ class strcat {
         return +v;
     }
 
+    const char* cast(const char* v) { return v; }
     std::string cast(char v) { return { v }; }
     std::string cast(std::string_view v) { return { v.data(), v.size() }; }
 
