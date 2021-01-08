@@ -19,7 +19,7 @@ class variant {
     template<typename T>
     variant(T const& v)
         : _id { type_id<T>::value } {
-        new (_value) T(v);
+        set(v);
     }
 
     template<typename T>
@@ -34,6 +34,11 @@ class variant {
     auto id() const { return _id; }
 
   private:
+    template<typename T>
+    void set(T const& v) {
+        new (_value) T { v };
+    }
+
     auto extra() const { return _extra; }
 
   private:
