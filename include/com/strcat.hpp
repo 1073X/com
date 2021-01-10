@@ -7,22 +7,12 @@
 namespace miu::com {
 
 class strcat {
-  private:
-    template<typename T>
-    std::string cast(T const& t) {
-        return std::to_string(t);
-    }
-
-    template<size_t N>
-    const char* cast(const char (&v)[N]) {
-        return +v;
-    }
-
-    const char* cast(const char* v) { return v; }
-    std::string cast(char v) { return { v }; }
-    std::string cast(std::string_view v) { return { v.data(), v.size() }; }
-
   public:
+    template<typename T>
+    struct cast {
+        auto operator()(T const& t) { return std::to_string(t); }
+    };
+
     struct delimiter {
         std::string val;
     };
@@ -34,7 +24,7 @@ class strcat {
     template<typename T, typename... ARGS>
     strcat(T const& t, ARGS&&... args)
         : strcat(std::forward<ARGS>(args)...) {
-        _str = cast(t) + _delimiter.val + _str;
+        _str = cast<T>()(t) + _delimiter.val + _str;
     }
 
     std::string str() const {
@@ -45,6 +35,31 @@ class strcat {
   private:
     delimiter _delimiter;
     std::string _str;
+};
+
+template<>
+struct strcat::cast<char> {
+    auto operator()(char v) const { return std::string { v }; }
+};
+
+template<std::size_t N>
+struct strcat::cast<char[N]> {
+    auto operator()(const char (&v)[N]) const { return +v; }
+};
+
+template<>
+struct strcat::cast<const char*> {
+    auto operator()(const char* v) const { return v; }
+};
+
+template<>
+struct strcat::cast<std::string> {
+    auto operator()(std::string const& v) { return v; }
+};
+
+template<>
+struct strcat::cast<std::string_view> {
+    auto operator()(std::string_view v) { return v.data(); }
 };
 
 }    // namespace miu::com
