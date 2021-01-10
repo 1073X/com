@@ -9,7 +9,7 @@ namespace miu::com {
 class strcat {
   private:
     template<typename T>
-    auto cast(T const& t) {
+    std::string cast(T const& t) {
         return std::to_string(t);
     }
 

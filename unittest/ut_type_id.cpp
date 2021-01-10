@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "com/type_id.hpp"
+#include "com/variant.hpp"
 
 using miu::com::type_id;
 
@@ -39,7 +39,7 @@ TEST(ut_type_id, primitive_type) {
 }
 
 struct custom {};
-DEF_TYPE_ID(custom, 132);
+DEF_VARIANT(custom, 132);
 
 TEST(ut_type_id, custom_type) {
     EXPECT_EQ(132, type_id<custom>::value);
