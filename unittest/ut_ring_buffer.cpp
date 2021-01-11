@@ -9,7 +9,6 @@ struct ut_ring_buffer : public testing::Test {
 TEST_F(ut_ring_buffer, capacity_must_be_pow_of_2) {
     EXPECT_ANY_THROW(miu::com::ring_buffer<int32_t>(1000));
     EXPECT_ANY_THROW(miu::com::ring_buffer<int32_t>(31));
-    EXPECT_ANY_THROW(miu::com::ring_buffer<int32_t>(0));
 }
 
 TEST_F(ut_ring_buffer, properties) {
@@ -52,4 +51,14 @@ TEST_F(ut_ring_buffer, wrap) {
     EXPECT_TRUE(ring.push(3));
     EXPECT_TRUE(ring.push(3));
     EXPECT_FALSE(ring.push(3));
+}
+
+TEST_F(ut_ring_buffer, resize) {
+    ring.resize(8);
+    EXPECT_EQ(8, ring.capacity());
+
+    ring.emplace(1);
+    EXPECT_NO_THROW(ring.resize(8));      // OK, no change
+    EXPECT_ANY_THROW(ring.resize(16));    // Not OK
+    EXPECT_ANY_THROW(ring.resize(0));     // Not OK
 }

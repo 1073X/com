@@ -51,13 +51,19 @@ class ring_buffer {
 
     template<typename... ARGS>
     void resize(uint32_t cap, ARGS&&... args) {
-        auto mask = cap - 1;
-        if (!cap || cap & mask) {
-            FATAL_ERROR("ring_buffer size must be pow of 2", cap);
-        }
+        if (cap != capacity()) {
+            if (size() > 0) {
+                FATAL_ERROR("can not resize non-empty ring_buffer");
+            }
 
-        _mask = mask;
-        _vec.resize(cap, T { std::forward<ARGS>(args)... });
+            auto mask = cap - 1;
+            if (!cap || cap & mask) {
+                FATAL_ERROR("ring_buffer size must be pow of 2", cap);
+            }
+
+            _mask = mask;
+            _vec.resize(cap, T { std::forward<ARGS>(args)... });
+        }
     }
 
   private:
