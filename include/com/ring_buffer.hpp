@@ -12,12 +12,8 @@ template<typename T>
 class ring_buffer {
   public:
     template<typename... ARGS>
-    explicit ring_buffer(uint32_t cap, ARGS&&... args)
-        : MASK { cap - 1 }
-        , _vec(cap, T { std::forward<ARGS>(args)... }) {
-        if (!cap || cap & MASK) {
-            FATAL_ERROR("ring_buffer size must be pow of 2");
-        }
+    explicit ring_buffer(uint32_t cap, ARGS&&... args) {
+        resize(cap, std::forward<ARGS>(args)...);
     }
 
     ring_buffer(ring_buffer const&) = delete;
@@ -53,8 +49,19 @@ class ring_buffer {
         return _vec[to_idx(head + idx)];
     }
 
+    template<typename... ARGS>
+    void resize(uint32_t cap, ARGS&&... args) {
+        auto mask = cap - 1;
+        if (!cap || cap & mask) {
+            FATAL_ERROR("ring_buffer size must be pow of 2", cap);
+        }
+
+        _mask = mask;
+        _vec.resize(cap, T { std::forward<ARGS>(args)... });
+    }
+
   private:
-    inline uint32_t to_idx(uint32_t val) const { return val & MASK; }
+    inline uint32_t to_idx(uint32_t val) const { return val & _mask; }
 
     template<typename CB>
     bool try_add(CB const& cb) {
@@ -71,7 +78,7 @@ class ring_buffer {
     }
 
   private:
-    uint32_t const MASK;
+    uint32_t _mask;
     std::atomic_uint _head { 0 };
     std::atomic_uint _tail { 0 };
     std::vector<T> _vec;
