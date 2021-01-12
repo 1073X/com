@@ -19,8 +19,6 @@ TEST(ut_daytime, create_from_duration) {
 
     auto time2 = daytime { std::chrono::seconds(1) };
     EXPECT_EQ(microseconds(1000000), time2.time_since_epoch());
-
-    EXPECT_ANY_THROW(daytime(microseconds(-1)));
 }
 
 TEST(ut_daytime, create_from_components) {
@@ -28,13 +26,14 @@ TEST(ut_daytime, create_from_components) {
     EXPECT_EQ((12 * 3600 + 10 * 60 + 11) * 1000000LL + 123, time.time_since_epoch().count());
 
     // illegal value
-    EXPECT_ANY_THROW(daytime(24, 0, 0, 0));
-    EXPECT_ANY_THROW(daytime(1, 60, 0, 0));
-    EXPECT_ANY_THROW(daytime(1, -1, 0, 0));
-    EXPECT_ANY_THROW(daytime(1, 0, 60, 0));
-    EXPECT_ANY_THROW(daytime(1, 0, -1, 0));
-    EXPECT_ANY_THROW(daytime(1, 0, 0, 1000000));
-    EXPECT_ANY_THROW(daytime(1, 0, 0, -1));
+    EXPECT_THROW(daytime(24, 0, 0, 0), std::overflow_error);
+    EXPECT_THROW(daytime(-1, 0, 0, 0), std::underflow_error);
+    EXPECT_THROW(daytime(1, 60, 0, 0), std::overflow_error);
+    EXPECT_THROW(daytime(1, -1, 0, 0), std::underflow_error);
+    EXPECT_THROW(daytime(1, 0, 60, 0), std::overflow_error);
+    EXPECT_THROW(daytime(1, 0, -1, 0), std::underflow_error);
+    EXPECT_THROW(daytime(1, 0, 0, 1000000), std::overflow_error);
+    EXPECT_THROW(daytime(1, 0, 0, -1), std::underflow_error);
 }
 
 TEST(ut_daytime, create_from_string) {

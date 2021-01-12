@@ -1,7 +1,9 @@
 
 #include "com/daytime.hpp"
 
+#include <cassert>
 #include <iomanip>
+#include <iostream>
 #include <sstream>
 
 #include "com/fatal_error.hpp"
@@ -13,25 +15,25 @@ namespace miu::com {
 
 static_assert(sizeof(int64_t) == sizeof(daytime));
 
-static microseconds const MIN_VAL {};
-static microseconds const MAX_VAL { 24h - 1us };
-
 daytime::daytime(duration v)
-    : daytime_base(v.count()) {
-    if (v < MIN_VAL || v > MAX_VAL) {
-        FATAL_ERROR("daytime overflow. duration =", v.count());
-    }
-}
+    : daytime_base(v.count()) {}
 
 daytime::daytime(rep hrs, rep min, rep sec, rep us)
     : daytime((3600 * hrs + 60 * min + sec) * 1000000LL + us) {
-    if (min < 0 || min >= 60 || sec < 0 || sec >= 60 || us < 0 || us > 999999) {
-        FATAL_ERROR("illegal daytime components", hrs, min, sec, us);
+    if (hrs < 0 || min < 0 || sec < 0 || us < 0) {
+        FATAL_ERROR<std::underflow_error>(hrs, min, sec, us);
+    }
+    if (hrs > 23 || min > 59 || sec > 59 || us > 999999) {
+        FATAL_ERROR<std::overflow_error>(hrs, min, sec, us);
     }
 }
 
 daytime::daytime(std::string_view v)
-    : daytime(duration { v }) {}
+    : daytime(duration { v }) {
+    if (*this > max()) {
+        FATAL_ERROR<std::overflow_error>(v);
+    }
+}
 
 daytime
 daytime::now() {
@@ -42,16 +44,18 @@ daytime::now() {
 
 daytime
 daytime::zero() {
+    static daytime const MIN_VAL { 0us };
     return MIN_VAL;
 }
 
 daytime
 daytime::min() {
-    return MIN_VAL;
+    return zero();
 }
 
 daytime
 daytime::max() {
+    static daytime const MAX_VAL { 24h - 1us };
     return MAX_VAL;
 }
 
