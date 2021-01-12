@@ -32,8 +32,10 @@ date::date(duration val)
 
 date::date(rep yrs, rep mon, rep day)
     : date(miu::com::days_from_civil(yrs, mon, day)) {
-    if (yrs < 1970 || yrs > 9999 || !mon || mon > 12 || !day || day > 31) {
-        FATAL_ERROR("illegal date components", yrs, mon, day);
+    if (yrs < 1970 || !mon || !day) {
+        FATAL_ERROR<std::underflow_error>("illegal date components", yrs, mon, day);
+    } else if (yrs > 9999 || mon > 12 || day > 31) {
+        FATAL_ERROR<std::overflow_error>("illegal date components", yrs, mon, day);
     }
 }
 

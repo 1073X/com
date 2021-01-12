@@ -53,12 +53,12 @@ class ring_buffer {
     void resize(uint32_t cap, ARGS&&... args) {
         if (cap != capacity()) {
             if (size() > 0) {
-                FATAL_ERROR("can not resize non-empty ring_buffer");
+                FATAL_ERROR<std::logic_error>("can not resize non-empty ring_buffer");
             }
 
             auto mask = cap - 1;
             if (!cap || cap & mask) {
-                FATAL_ERROR("ring_buffer size must be pow of 2", cap);
+                FATAL_ERROR<std::length_error>("ring_buffer size must be pow of 2", cap);
             }
 
             _mask = mask;

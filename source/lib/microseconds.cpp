@@ -25,12 +25,12 @@ cast(std::string_view str) {
 
     auto min = c2i(str[3]) * 10 + c2i(str[4]);
     if (min >= 60) {
-        FATAL_ERROR("illegal minute value", min);
+        FATAL_ERROR<std::overflow_error>("illegal minute value", min);
     }
 
     auto sec = c2i(str[6]) * 10 + c2i(str[7]);
     if (sec >= 60) {
-        FATAL_ERROR("illegal second value", sec);
+        FATAL_ERROR<std::overflow_error>("illegal second value", sec);
     }
 
     auto us = c2i(str[9]) * 100000 + c2i(str[10]) * 10000 + c2i(str[11]) * 1000 + c2i(str[12]) * 100
