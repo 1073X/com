@@ -168,7 +168,23 @@ DEFAULT_SET(days);
 DEFAULT_GET(days);
 
 DEFAULT_SET(date);
-DEFAULT_GET(date);
+template<>
+std::optional<date>
+variant::get<date>() const {
+    switch (_id) {
+    case type_id<date>::value:
+        return *(date const*)_value;
+
+    case type_id<const char*>::value:
+        return date { (const char*)*_value };
+
+    case type_id<std::string>::value:
+        return date { (const char*)_value };
+
+    default:
+        return std::nullopt;
+    }
+}
 
 DEFAULT_SET(daytime);
 DEFAULT_GET(daytime);

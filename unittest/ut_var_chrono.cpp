@@ -31,6 +31,12 @@ TEST_F(ut_var_chrono, date) {
     variant var { val };
     EXPECT_EQ(type_id<date>::value, var.id());
     EXPECT_EQ(val, var.get<date>().value());
+
+    auto str = +"20210113";
+    EXPECT_EQ(date(2021, 1, 13), variant { str }.get<date>().value());
+    EXPECT_EQ(date(2021, 1, 13), variant { std::string(str) }.get<date>().value());
+
+    EXPECT_FALSE(variant { 1.2 }.get<date>());
 }
 
 TEST_F(ut_var_chrono, daytime) {
