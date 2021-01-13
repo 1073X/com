@@ -31,6 +31,8 @@ TEST_F(ut_var_chrono, microseconds) {
     EXPECT_EQ(exp, variant { str }.get<microseconds>());
     EXPECT_EQ(exp, variant { std::string(str) }.get<microseconds>());
     EXPECT_EQ(exp, variant { exp.count() }.get<microseconds>());
+
+    EXPECT_FALSE(variant { true }.get<microseconds>());
 }
 
 TEST_F(ut_var_chrono, date) {
@@ -51,6 +53,13 @@ TEST_F(ut_var_chrono, daytime) {
     variant var { val };
     EXPECT_EQ(type_id<daytime>::value, var.id());
     EXPECT_EQ(val, var.get<daytime>().value());
+
+    auto str = +"23:01:01.000001";
+    auto exp = daytime { str };
+    EXPECT_EQ(exp, variant { str }.get<daytime>());
+    EXPECT_EQ(exp, variant { std::string(str) }.get<daytime>());
+
+    EXPECT_FALSE(variant { 1.2 }.get<daytime>());
 }
 
 TEST_F(ut_var_chrono, datetime) {

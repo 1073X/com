@@ -200,7 +200,20 @@ variant::get<date>() const {
 }
 
 DEFAULT_SET(daytime);
-DEFAULT_GET(daytime);
+template<>
+std::optional<daytime>
+variant::get<daytime>() const {
+    switch (_id) {
+    case type_id<daytime>::value:
+        return *(daytime const*)_value;
+    case type_id<const char*>::value:
+        return daytime { (const char*)*_value };
+    case type_id<std::string>::value:
+        return daytime { (const char*)_value };
+    default:
+        return std::nullopt;
+    }
+}
 
 DEFAULT_SET(datetime);
 DEFAULT_GET(datetime);
