@@ -162,7 +162,23 @@ DEFAULT_GET(wchar_t const*);
 
 // chrono
 DEFAULT_SET(microseconds);
-DEFAULT_GET(microseconds);
+template<>
+std::optional<microseconds>
+variant::get<microseconds>() const {
+    switch (_id) {
+    case type_id<microseconds>::value:
+        return *(microseconds const*)_value;
+    case type_id<const char*>::value:
+        return microseconds { (const char*)*_value };
+    case type_id<std::string>::value:
+        return microseconds { (const char*)_value };
+    case type_id<int64_t>::value:
+        return microseconds { *(int64_t const*)_value };
+    // TBD: map other integer type ...
+    default:
+        return std::nullopt;
+    }
+}
 
 DEFAULT_SET(days);
 DEFAULT_GET(days);
@@ -174,13 +190,10 @@ variant::get<date>() const {
     switch (_id) {
     case type_id<date>::value:
         return *(date const*)_value;
-
     case type_id<const char*>::value:
         return date { (const char*)*_value };
-
     case type_id<std::string>::value:
         return date { (const char*)_value };
-
     default:
         return std::nullopt;
     }

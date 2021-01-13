@@ -2,6 +2,7 @@
 
 #include "com/variant.hpp"
 
+using namespace std::chrono_literals;
 using miu::com::date;
 using miu::com::datetime;
 using miu::com::days;
@@ -24,6 +25,12 @@ TEST_F(ut_var_chrono, microseconds) {
     variant var { val };
     EXPECT_EQ(type_id<microseconds>::value, var.id());
     EXPECT_EQ(val, var.get<microseconds>().value());
+
+    auto str = +"24:01:01.000001";
+    auto exp = microseconds(24h + 1min + 1s + 1us);
+    EXPECT_EQ(exp, variant { str }.get<microseconds>());
+    EXPECT_EQ(exp, variant { std::string(str) }.get<microseconds>());
+    EXPECT_EQ(exp, variant { exp.count() }.get<microseconds>());
 }
 
 TEST_F(ut_var_chrono, date) {
