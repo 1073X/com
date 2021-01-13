@@ -162,18 +162,71 @@ DEFAULT_GET(wchar_t const*);
 
 // chrono
 DEFAULT_SET(microseconds);
-DEFAULT_GET(microseconds);
+template<>
+std::optional<microseconds>
+variant::get<microseconds>() const {
+    switch (_id) {
+    case type_id<microseconds>::value:
+        return *(microseconds const*)_value;
+    case type_id<const char*>::value:
+        return microseconds { (const char*)*_value };
+    case type_id<std::string>::value:
+        return microseconds { (const char*)_value };
+    case type_id<int64_t>::value:
+        return microseconds { *(int64_t const*)_value };
+    // TBD: map other integer type ...
+    default:
+        return std::nullopt;
+    }
+}
 
 DEFAULT_SET(days);
 DEFAULT_GET(days);
 
 DEFAULT_SET(date);
-DEFAULT_GET(date);
+template<>
+std::optional<date>
+variant::get<date>() const {
+    switch (_id) {
+    case type_id<date>::value:
+        return *(date const*)_value;
+    case type_id<const char*>::value:
+        return date { (const char*)*_value };
+    case type_id<std::string>::value:
+        return date { (const char*)_value };
+    default:
+        return std::nullopt;
+    }
+}
 
 DEFAULT_SET(daytime);
-DEFAULT_GET(daytime);
+template<>
+std::optional<daytime>
+variant::get<daytime>() const {
+    switch (_id) {
+    case type_id<daytime>::value:
+        return *(daytime const*)_value;
+    case type_id<const char*>::value:
+        return daytime { (const char*)*_value };
+    case type_id<std::string>::value:
+        return daytime { (const char*)_value };
+    default:
+        return std::nullopt;
+    }
+}
 
 DEFAULT_SET(datetime);
-DEFAULT_GET(datetime);
+template<>
+std::optional<datetime>
+variant::get<datetime>() const {
+    switch (_id) {
+    case type_id<datetime>::value:
+        return *(datetime const*)_value;
+    case type_id<const char*>::value:
+        return datetime { (const char*)*_value };
+    default:
+        return std::nullopt;
+    }
+}
 
 }    // namespace miu::com
