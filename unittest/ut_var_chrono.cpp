@@ -67,4 +67,8 @@ TEST_F(ut_var_chrono, datetime) {
     variant var { val };
     EXPECT_EQ(type_id<datetime>::value, var.id());
     EXPECT_EQ(val, var.get<datetime>().value());
+
+    auto str = +"20210113 23:01:01.000001";
+    auto exp = datetime { str };
+    EXPECT_EQ(exp, variant { str }.get<datetime>());
 }

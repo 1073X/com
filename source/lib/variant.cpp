@@ -216,6 +216,17 @@ variant::get<daytime>() const {
 }
 
 DEFAULT_SET(datetime);
-DEFAULT_GET(datetime);
+template<>
+std::optional<datetime>
+variant::get<datetime>() const {
+    switch (_id) {
+    case type_id<datetime>::value:
+        return *(datetime const*)_value;
+    case type_id<const char*>::value:
+        return datetime { (const char*)*_value };
+    default:
+        return std::nullopt;
+    }
+}
 
 }    // namespace miu::com
