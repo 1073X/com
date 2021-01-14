@@ -53,6 +53,11 @@ struct strcat::cast<const char*> {
 };
 
 template<>
+struct strcat::cast<char*> {
+    auto operator()(char* v) const { return v; }
+};
+
+template<>
 struct strcat::cast<std::string> {
     auto operator()(std::string const& v) { return v; }
 };

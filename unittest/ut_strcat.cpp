@@ -5,8 +5,8 @@
 TEST(ut_strcat, concat) {
     char array[] = "array";
     std::string_view view { "view" };
-    miu::com::strcat cat { array, 'b', 1, view };
-    EXPECT_EQ("array.b.1.view", cat.str());
+    miu::com::strcat cat { array, 'b', 1, view, &array[0] };
+    EXPECT_EQ("array.b.1.view.array", cat.str());
 }
 
 TEST(ut_strcat, delimiter) {
