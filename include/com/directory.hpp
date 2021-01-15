@@ -17,31 +17,31 @@ class directory {
     auto path() const { return _path; }
 
     template<typename... ARGS>
-    auto make_file(ARGS&&... args) const {
-        return do_make_file(com::strcat { std::forward<ARGS>(args)... }.str());
+    auto join(ARGS&&... args) const {
+        return do_join(com::strcat { std::forward<ARGS>(args)... }.str());
     }
 
     template<typename... ARGS>
     auto file_size(ARGS&&... args) const {
-        auto file = make_file(std::forward<ARGS>(args)...);
+        auto file = join(std::forward<ARGS>(args)...);
         return std::filesystem::file_size(file);
     }
 
     template<typename... ARGS>
     auto exists(ARGS&&... args) const {
-        auto file = make_file(std::forward<ARGS>(args)...);
+        auto file = join(std::forward<ARGS>(args)...);
         return std::filesystem::exists(file);
     }
 
     template<typename... ARGS>
     auto remove(ARGS&&... args) const {
-        auto file = make_file(std::forward<ARGS>(args)...);
+        auto file = join(std::forward<ARGS>(args)...);
         return std::filesystem::remove(file);
     }
 
   private:
     void init(std::string_view);
-    std::filesystem::path do_make_file(std::string_view) const;
+    std::filesystem::path do_join(std::string_view) const;
 
   private:
     std::filesystem::path _path;

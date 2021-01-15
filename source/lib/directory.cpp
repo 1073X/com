@@ -14,7 +14,7 @@ directory::init(std::string_view raw) {
 }
 
 fs::path
-directory::do_make_file(std::string_view filename) const {
+directory::do_join(std::string_view filename) const {
     if (filename.empty()) {
         FATAL_ERROR("empty shmem file name");
     }
