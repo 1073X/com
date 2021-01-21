@@ -11,6 +11,11 @@ class directory {
   public:
     template<typename... ARGS>
     directory(ARGS&&... args) {
+        reset(std::forward<ARGS>(args)...);
+    }
+
+    template<typename... ARGS>
+    void reset(ARGS&&... args) {
         init(strcat(std::forward<ARGS>(args)..., strcat::delimiter { "/" }).str());
     }
 

@@ -7,14 +7,13 @@
 namespace fs = std::filesystem;
 
 struct ut_directory : public testing::Test {
-    void TearDown() override { fs::remove_all(dir.path()); }
+    void TearDown() override { fs::remove_all("ut_directory"); }
     miu::com::directory dir { ".", "ut_directory", "subdir" };
 };
 
 TEST_F(ut_directory, ctor) {
     ASSERT_TRUE(fs::is_directory("./ut_directory/subdir"));
     EXPECT_TRUE(fs::equivalent("./ut_directory/subdir", dir.path()));
-    std::cout << dir.path() << std::endl;
 }
 
 TEST_F(ut_directory, join) {
@@ -31,4 +30,10 @@ TEST_F(ut_directory, exists_and_remove) {
     EXPECT_EQ(0, dir.file_size("ut_directory", 1));
     dir.remove("ut_directory", 1);
     EXPECT_FALSE(dir.exists("ut_directory", 1));
+}
+
+TEST_F(ut_directory, reset) {
+    dir.reset("ut_directory", "newdir");
+    ASSERT_TRUE(fs::is_directory("./ut_directory/newdir"));
+    EXPECT_TRUE(fs::equivalent("./ut_directory/newdir", dir.path()));
 }
