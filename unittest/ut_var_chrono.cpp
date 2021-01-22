@@ -18,6 +18,7 @@ TEST_F(ut_var_chrono, days) {
     variant var { val };
     EXPECT_EQ(type_id<days>::value, var.id());
     EXPECT_EQ(val, var.get<days>().value());
+    EXPECT_EQ("1d", var.get<std::string>().value());
 }
 
 TEST_F(ut_var_chrono, microseconds) {
@@ -25,6 +26,7 @@ TEST_F(ut_var_chrono, microseconds) {
     variant var { val };
     EXPECT_EQ(type_id<microseconds>::value, var.id());
     EXPECT_EQ(val, var.get<microseconds>().value());
+    EXPECT_EQ("00:00:00.000001", var.get<std::string>().value());
 
     auto str = +"24:01:01.000001";
     auto exp = microseconds(24h + 1min + 1s + 1us);
@@ -40,6 +42,7 @@ TEST_F(ut_var_chrono, date) {
     variant var { val };
     EXPECT_EQ(type_id<date>::value, var.id());
     EXPECT_EQ(val, var.get<date>().value());
+    EXPECT_EQ("20210107", var.get<std::string>().value());
 
     auto str = +"20210113";
     EXPECT_EQ(date(2021, 1, 13), variant { str }.get<date>().value());
@@ -53,6 +56,7 @@ TEST_F(ut_var_chrono, daytime) {
     variant var { val };
     EXPECT_EQ(type_id<daytime>::value, var.id());
     EXPECT_EQ(val, var.get<daytime>().value());
+    EXPECT_EQ("13:49:30.000999", var.get<std::string>().value());
 
     auto str = +"23:01:01.000001";
     auto exp = daytime { str };
@@ -67,6 +71,7 @@ TEST_F(ut_var_chrono, datetime) {
     variant var { val };
     EXPECT_EQ(type_id<datetime>::value, var.id());
     EXPECT_EQ(val, var.get<datetime>().value());
+    EXPECT_EQ("20210107 13:49:30.000999", var.get<std::string>().value());
 
     auto str = +"20210113 23:01:01.000001";
     auto exp = datetime { str };

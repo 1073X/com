@@ -1,5 +1,7 @@
 #pragma once
 
+#include "com/days.hpp"
+
 #include "var_casting.hpp"
 
 namespace miu::com {
@@ -24,6 +26,11 @@ class var_string : public var_casting<std::string> {
         accept<uint64_t>();
         accept<float>();
         accept<double>();
+        accept<days>();
+        accept<microseconds>();
+        accept<date>();
+        accept<daytime>();
+        accept<datetime>();
     }
 
   private:
