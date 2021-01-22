@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <string>
 
 namespace miu::com {
 
@@ -16,3 +17,7 @@ class days : public days_base {
 };
 
 }    // namespace miu::com
+
+namespace std {
+std::string to_string(miu::com::days);
+}
