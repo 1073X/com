@@ -6,12 +6,9 @@ namespace miu::com {
 
 static_assert(sizeof(int32_t) == sizeof(days));
 
-}
-
-namespace std {
-
-std::string to_string(miu::com::days val) {
+template<>
+std::string to_string<days>(days const& val) {
     return std::to_string(val.count()) + "d";
 }
 
-}    // namespace std
+}    // namespace miu::com

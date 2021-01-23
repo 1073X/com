@@ -9,11 +9,11 @@ struct ut_enum : public testing::Test {
 };
 
 TEST_F(ut_enum, to_string) {
-    EXPECT_STREQ("VAL1", std::to_string(enumeration::VAL1));
-    EXPECT_STREQ("VAL2", std::to_string(enumeration::VAL2));
-    EXPECT_STREQ("MAX", std::to_string(enumeration::MAX));
+    EXPECT_STREQ("VAL1", miu::com::to_string(enumeration::VAL1));
+    EXPECT_STREQ("VAL2", miu::com::to_string(enumeration::VAL2));
+    EXPECT_STREQ("MAX", miu::com::to_string(enumeration::MAX));
 
-    EXPECT_STREQ("MAX", std::to_string(enumeration(99)));
+    EXPECT_STREQ("MAX", miu::com::to_string(enumeration(99)));
 }
 
 TEST_F(ut_enum, str_to_enum) {

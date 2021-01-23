@@ -46,9 +46,9 @@ TEST(ut_daytime, create_from_string) {
 
 TEST(ut_daytime, to_string) {
     auto time = daytime { 6, 12, 33, 99999 };
-    EXPECT_EQ("06:12:33.099999", std::to_string(time));
+    EXPECT_EQ("06:12:33.099999", miu::com::to_string(time));
 
-    EXPECT_EQ("00:00:00.000000", std::to_string(daytime()));
+    EXPECT_EQ("00:00:00.000000", miu::com::to_string(daytime()));
 }
 
 TEST(ut_daytime, now) {

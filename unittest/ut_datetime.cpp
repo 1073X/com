@@ -24,7 +24,7 @@ TEST(ut_datetime, create_from_components) {
 
 TEST(ut_datetime, to_string) {
     auto val = datetime { 2021, 1, 3, 19, 15, 30, 123 };
-    EXPECT_EQ("20210103 19:15:30.000123", std::to_string(val));
+    EXPECT_EQ("20210103 19:15:30.000123", miu::com::to_string(val));
 }
 
 TEST(ut_datetime, create_from_string) {

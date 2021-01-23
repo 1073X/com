@@ -27,8 +27,7 @@ class datetime : public datetime_base {
     daytime time() const;
 };
 
-}    // namespace miu::com
+template<>
+std::string to_string<datetime>(datetime const&);
 
-namespace std {
-string to_string(miu::com::datetime);
-}
+}    // namespace miu::com

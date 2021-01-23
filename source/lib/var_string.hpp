@@ -1,6 +1,10 @@
 #pragma once
 
+#include "com/date.hpp"
+#include "com/datetime.hpp"
 #include "com/days.hpp"
+#include "com/daytime.hpp"
+#include "com/microseconds.hpp"
 
 #include "var_casting.hpp"
 
@@ -37,7 +41,7 @@ class var_string : public var_casting<std::string> {
     template<typename source_type>
     void accept() {
         support(type_id<source_type>::value, [](auto var) -> std::optional<std::string> {
-            return std::to_string(*(source_type const*)var);
+            return to_string(*(source_type const*)var);
         });
     }
 };

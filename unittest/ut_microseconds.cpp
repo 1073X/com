@@ -34,7 +34,7 @@ TEST(ut_microseconds, create_from_string) {
 
 TEST(ut_microseconds, to_string) {
     auto str = "01:02:03.999999";
-    EXPECT_EQ(str, std::to_string(microseconds { str }));
+    EXPECT_EQ(str, miu::com::to_string(microseconds { str }));
 }
 
 TEST(ut_microseconds, extreme) {

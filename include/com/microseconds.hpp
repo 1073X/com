@@ -3,6 +3,8 @@
 #include <chrono>
 #include <string_view>
 
+#include "to_string.hpp"
+
 namespace miu::com {
 
 class microseconds : public std::chrono::microseconds {
@@ -17,8 +19,7 @@ class microseconds : public std::chrono::microseconds {
     microseconds(std::string_view);    // HH:MM:SS.ffffff
 };
 
-}    // namespace miu::com
+template<>
+std::string to_string<microseconds>(microseconds const&);    // HH:MM:SS.ffffff
 
-namespace std {
-string to_string(miu::com::microseconds);    // HH:MM:SS.ffffff
-}
+}    // namespace miu::com
