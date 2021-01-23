@@ -39,7 +39,7 @@ TEST(ut_date, to_string) {
 TEST(ut_date, today) {
     auto val = date::today();
 
-    auto now = std::chrono::system_clock::now();
+    auto now   = std::chrono::system_clock::now();
     auto today = std::chrono::duration_cast<miu::com::days_base>(now.time_since_epoch());
 
     EXPECT_EQ(today, val.time_since_epoch());

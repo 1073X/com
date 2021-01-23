@@ -84,7 +84,7 @@ TYPED_TEST(ut_var_promote, can_cover_source_max) {
     using target_type = typename TypeParam::second_type;
 
     source_type val = std::numeric_limits<source_type>::max();
-    auto var = variant { val };
+    auto var        = variant { val };
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_DOUBLE_EQ((target_type)val, var.get<target_type>().value());
 }
@@ -94,7 +94,7 @@ TYPED_TEST(ut_var_promote, can_cover_source_lowest) {
     using target_type = typename TypeParam::second_type;
 
     source_type val = std::numeric_limits<source_type>::lowest();
-    auto var = variant { val };
+    auto var        = variant { val };
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_DOUBLE_EQ((target_type)val, var.get<target_type>().value());
 }

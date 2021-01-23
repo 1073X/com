@@ -29,7 +29,7 @@ TYPED_TEST(ut_var_try_unsigned, can_cover_source_max) {
     using target_type = typename TypeParam::second_type;
 
     source_type val = std::numeric_limits<source_type>::max();
-    auto var = variant { val };
+    auto var        = variant { val };
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_EQ(val, var.get<target_type>());
 }
@@ -39,7 +39,7 @@ TYPED_TEST(ut_var_try_unsigned, underflow) {
     using target_type = typename TypeParam::second_type;
 
     source_type val = -1;
-    auto var = variant { val };
+    auto var        = variant { val };
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_FALSE(var.get<target_type>().has_value());
 }
@@ -65,7 +65,7 @@ TYPED_TEST(ut_var_try_unsigned_demote, can_cover_target_max) {
     using target_type = typename TypeParam::second_type;
 
     source_type val = std::numeric_limits<target_type>::max();
-    auto var = variant { val };
+    auto var        = variant { val };
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_EQ((target_type)val, var.get<target_type>());
 }
@@ -75,7 +75,7 @@ TYPED_TEST(ut_var_try_unsigned_demote, underflow) {
     using target_type = typename TypeParam::second_type;
 
     source_type val = -1;
-    auto var = variant { val };
+    auto var        = variant { val };
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_FALSE(var.get<target_type>().has_value());
 }
@@ -85,7 +85,7 @@ TYPED_TEST(ut_var_try_unsigned_demote, overflow) {
     using target_type = typename TypeParam::second_type;
 
     source_type val = std::numeric_limits<target_type>::max();
-    auto var = variant { source_type(val + 1) };
+    auto var        = variant { source_type(val + 1) };
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_FALSE(var.get<target_type>().has_value());
 }

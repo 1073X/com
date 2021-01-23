@@ -91,4 +91,3 @@ DEF_VARIANT(miu::com::days, 17);
 DEF_VARIANT(miu::com::date, 18);
 DEF_VARIANT(miu::com::daytime, 19);
 DEF_VARIANT(miu::com::datetime, 20);
-

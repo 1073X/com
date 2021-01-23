@@ -33,8 +33,7 @@ namespace miu::com {
 // boolean
 DEFAULT_SET(bool);
 template<>
-std::optional<bool>
-variant::get<bool>() const {
+std::optional<bool> variant::get<bool>() const {
     static var_boolean cast;
     return cast(this);
 }
@@ -42,64 +41,56 @@ variant::get<bool>() const {
 // integer
 DEFAULT_SET(int64_t);
 template<>
-std::optional<int64_t>
-variant::get<int64_t>() const {
+std::optional<int64_t> variant::get<int64_t>() const {
     static var_number<int64_t> cast;
     return cast(this);
 }
 
 DEFAULT_SET(int32_t);
 template<>
-std::optional<int32_t>
-variant::get<int32_t>() const {
+std::optional<int32_t> variant::get<int32_t>() const {
     static var_number<int32_t> cast;
     return cast(this);
 }
 
 DEFAULT_SET(int16_t);
 template<>
-std::optional<int16_t>
-variant::get<int16_t>() const {
+std::optional<int16_t> variant::get<int16_t>() const {
     static var_number<int16_t> cast;
     return cast(this);
 }
 
 DEFAULT_SET(int8_t);
 template<>
-std::optional<int8_t>
-variant::get<int8_t>() const {
+std::optional<int8_t> variant::get<int8_t>() const {
     static var_number<int8_t> cast;
     return cast(this);
 }
 
 DEFAULT_SET(uint64_t);
 template<>
-std::optional<uint64_t>
-variant::get<uint64_t>() const {
+std::optional<uint64_t> variant::get<uint64_t>() const {
     static var_number<uint64_t> cast;
     return cast(this);
 }
 
 DEFAULT_SET(uint32_t);
 template<>
-std::optional<uint32_t>
-variant::get<uint32_t>() const {
+std::optional<uint32_t> variant::get<uint32_t>() const {
     static var_number<uint32_t> cast;
     return cast(this);
 }
 
 DEFAULT_SET(uint16_t);
 template<>
-std::optional<uint16_t>
-variant::get<uint16_t>() const {
+std::optional<uint16_t> variant::get<uint16_t>() const {
     static var_number<uint16_t> cast;
     return cast(this);
 }
 
 DEFAULT_SET(uint8_t);
 template<>
-std::optional<uint8_t>
-variant::get<uint8_t>() const {
+std::optional<uint8_t> variant::get<uint8_t>() const {
     static var_number<uint8_t> cast;
     return cast(this);
 }
@@ -107,16 +98,14 @@ variant::get<uint8_t>() const {
 // decimal
 DEFAULT_SET(float);
 template<>
-std::optional<float>
-variant::get<float>() const {
+std::optional<float> variant::get<float>() const {
     static var_decimal<float> cast;
     return cast(this);
 }
 
 DEFAULT_SET(double);
 template<>
-std::optional<double>
-variant::get<double>() const {
+std::optional<double> variant::get<double>() const {
     static var_decimal<double> cast;
     return cast(this);
 }
@@ -129,10 +118,10 @@ variant::variant(std::string_view const& v)
 }
 
 variant::variant(std::string const& v)
-    : variant(std::string_view { v }) {}
+    : variant(std::string_view { v }) {
+}
 template<>
-std::optional<std::string>
-variant::get<std::string>() const {
+std::optional<std::string> variant::get<std::string>() const {
     static var_string cast;
     return cast(this);
 }
@@ -142,8 +131,7 @@ DEFAULT_GET(char);
 
 DEFAULT_SET(const char*);
 template<>
-std::optional<const char*>
-variant::get<const char*>() const {
+std::optional<const char*> variant::get<const char*>() const {
     switch (_id) {
     case type_id<const char*>::value:
         return (const char*)(*_value);
@@ -163,8 +151,7 @@ DEFAULT_GET(wchar_t const*);
 // chrono
 DEFAULT_SET(microseconds);
 template<>
-std::optional<microseconds>
-variant::get<microseconds>() const {
+std::optional<microseconds> variant::get<microseconds>() const {
     switch (_id) {
     case type_id<microseconds>::value:
         return *(microseconds const*)_value;
@@ -185,8 +172,7 @@ DEFAULT_GET(days);
 
 DEFAULT_SET(date);
 template<>
-std::optional<date>
-variant::get<date>() const {
+std::optional<date> variant::get<date>() const {
     switch (_id) {
     case type_id<date>::value:
         return *(date const*)_value;
@@ -201,8 +187,7 @@ variant::get<date>() const {
 
 DEFAULT_SET(daytime);
 template<>
-std::optional<daytime>
-variant::get<daytime>() const {
+std::optional<daytime> variant::get<daytime>() const {
     switch (_id) {
     case type_id<daytime>::value:
         return *(daytime const*)_value;
@@ -217,8 +202,7 @@ variant::get<daytime>() const {
 
 DEFAULT_SET(datetime);
 template<>
-std::optional<datetime>
-variant::get<datetime>() const {
+std::optional<datetime> variant::get<datetime>() const {
     switch (_id) {
     case type_id<datetime>::value:
         return *(datetime const*)_value;

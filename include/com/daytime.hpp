@@ -8,8 +8,8 @@ namespace miu::com {
 
 struct daytime_clock {
     using duration = microseconds;
-    using rep = duration::rep;
-    using period = duration::period;
+    using rep      = duration::rep;
+    using period   = duration::period;
     // using time_point = std::chrono::time_point<std::chrono::system_clock, duration>;
     // inline static bool is_steady = true;
     // static time_point now();
