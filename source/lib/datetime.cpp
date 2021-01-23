@@ -55,8 +55,8 @@ daytime datetime::time() const {
     return { time_since_epoch() - date().time_since_epoch() };
 }
 
-template<>
-std::string to_string<datetime>(datetime const& v) {
+}    // namespace miu::com
+
+DEF_TO_STRING(miu::com::datetime) {
     return strcat { v.date(), v.time(), strcat::delimiter { " " } }.str();
 }
-}    // namespace miu::com

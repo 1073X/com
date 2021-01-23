@@ -20,7 +20,6 @@ class date : public date_base {
     std::tuple<rep, rep, rep> civil_from_days() const;
 };
 
-template<>
-std::string to_string<date>(date const&);
-
 }    // namespace miu::com
+
+DEF_TO_STRING(miu::com::date);

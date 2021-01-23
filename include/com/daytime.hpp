@@ -28,7 +28,6 @@ class daytime : public daytime_base {
     static daytime zero();
 };
 
-template<>
-std::string to_string<daytime>(daytime const&);
-
 }    // namespace miu::com
+
+DEF_TO_STRING(miu::com::daytime);
