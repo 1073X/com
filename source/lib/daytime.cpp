@@ -16,7 +16,8 @@ namespace miu::com {
 static_assert(sizeof(int64_t) == sizeof(daytime));
 
 daytime::daytime(duration v)
-    : daytime_base(v.count()) {}
+    : daytime_base(v.count()) {
+}
 
 daytime::daytime(rep hrs, rep min, rep sec, rep us)
     : daytime((3600 * hrs + 60 * min + sec) * 1000000LL + us) {

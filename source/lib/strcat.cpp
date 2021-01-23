@@ -4,7 +4,8 @@
 namespace miu::com {
 
 strcat::strcat(delimiter del)
-    : _delimiter { std::move(del) } {}
+    : _delimiter { std::move(del) } {
+}
 
 std::string
 strcat::str() const {

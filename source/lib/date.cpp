@@ -28,7 +28,8 @@ cast(std::string_view str) {
 }
 
 date::date(duration val)
-    : date_base(val) {}
+    : date_base(val) {
+}
 
 date::date(rep yrs, rep mon, rep day)
     : date(miu::com::days_from_civil(yrs, mon, day)) {
@@ -40,7 +41,8 @@ date::date(rep yrs, rep mon, rep day)
 }
 
 date::date(std::string_view yyyymmdd)
-    : date(cast(yyyymmdd)) {}
+    : date(cast(yyyymmdd)) {
+}
 
 date
 date::today() {

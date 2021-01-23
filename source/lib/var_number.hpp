@@ -73,7 +73,7 @@ class var_number : public var_casting<target_type> {
     struct action<true, true, false, source_type> {
         static std::optional<target_type> cast(variant const* var) {
             std::optional<target_type> opt = std::nullopt;
-            auto val = *(source_type const*)var;
+            auto val                       = *(source_type const*)var;
             if (val > std::numeric_limits<target_type>::max()) {
                 SYSTEM_WARN("OVERFLOW",
                             type_id<source_type>::name,
@@ -98,7 +98,7 @@ class var_number : public var_casting<target_type> {
     struct action<true, false, false, source_type> {
         static std::optional<target_type> cast(variant const* var) {
             std::optional<target_type> opt = std::nullopt;
-            auto val = *(source_type const*)var;
+            auto val                       = *(source_type const*)var;
             if (val > std::numeric_limits<target_type>::max()) {
                 SYSTEM_WARN("OVERFLOW",
                             type_id<source_type>::name,
@@ -122,8 +122,8 @@ class var_number : public var_casting<target_type> {
     void accept() {
         auto constexpr is_source_signed = std::is_signed<source_type>::value;
         auto constexpr is_target_signed = std::is_signed<target_type>::value;
-        auto constexpr is_promoted = std::numeric_limits<source_type>::digits
-                                     <= std::numeric_limits<target_type>::digits;
+        auto constexpr is_promoted      = std::numeric_limits<source_type>::digits
+                                  <= std::numeric_limits<target_type>::digits;
         auto func = &action<is_source_signed, is_target_signed, is_promoted, source_type>::cast;
         this->support(type_id<source_type>::value, func);
     }

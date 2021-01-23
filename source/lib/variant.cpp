@@ -129,7 +129,8 @@ variant::variant(std::string_view const& v)
 }
 
 variant::variant(std::string const& v)
-    : variant(std::string_view { v }) {}
+    : variant(std::string_view { v }) {
+}
 template<>
 std::optional<std::string>
 variant::get<std::string>() const {

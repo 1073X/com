@@ -17,7 +17,7 @@ TEST(ut_variant, void) {
 
 TEST(ut_variant, wchar) {
     wchar_t ch = L'害';
-    auto var = variant { ch };
+    auto var   = variant { ch };
     EXPECT_EQ(type_id<wchar_t>::value, var.id());
     EXPECT_EQ(ch, var.get<wchar_t>());
 }

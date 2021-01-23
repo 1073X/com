@@ -34,14 +34,15 @@ cast(std::string_view str) {
     }
 
     auto us = c2i(str[9]) * 100000 + c2i(str[10]) * 10000 + c2i(str[11]) * 1000 + c2i(str[12]) * 100
-              + c2i(str[13]) * 10 + c2i(str[14]);
+            + c2i(str[13]) * 10 + c2i(str[14]);
 
     auto total = (hrs * 3600 + min * 60 + sec) * 1000000LL + us;
     return { total };
 }
 
 microseconds::microseconds(std::string_view str)
-    : microseconds(cast(str)) {}
+    : microseconds(cast(str)) {
+}
 
 }    // namespace miu::com
 
@@ -52,7 +53,7 @@ to_string(miu::com::microseconds val) {
     auto hrs = val.count() / (3600 * 1000000LL);
     auto min = (val.count() % (3600 * 1000000LL)) / (60 * 1000000);
     auto sec = (val.count() % (60 * 1000000LL)) / 1000000;
-    auto us = val.count() % 1000000;
+    auto us  = val.count() % 1000000;
 
     ostringstream ss;
     ss << setw(2) << setfill('0') << hrs;

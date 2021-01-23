@@ -14,10 +14,12 @@ cast(std::string_view str) {
 }
 
 datetime::datetime(duration v)
-    : datetime_base(v) {}
+    : datetime_base(v) {
+}
 
 datetime::datetime(class date d, daytime t)
-    : datetime(d.time_since_epoch() + t.time_since_epoch()) {}
+    : datetime(d.time_since_epoch() + t.time_since_epoch()) {
+}
 
 datetime::datetime(date::rep year,
                    date::rep month,
@@ -26,10 +28,12 @@ datetime::datetime(date::rep year,
                    daytime::rep minute,
                    daytime::rep second,
                    daytime::rep microsec)
-    : datetime({ year, month, day }, { hour, minute, second, microsec }) {}
+    : datetime({ year, month, day }, { hour, minute, second, microsec }) {
+}
 
 datetime::datetime(std::string_view v)
-    : datetime(cast(v)) {}
+    : datetime(cast(v)) {
+}
 
 datetime
 datetime::now() {
