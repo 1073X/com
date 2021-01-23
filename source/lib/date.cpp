@@ -75,4 +75,3 @@ DEF_TO_STRING(miu::com::date) {
        << days;
     return ss.str();
 }
-

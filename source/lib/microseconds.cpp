@@ -57,4 +57,3 @@ DEF_TO_STRING(miu::com::microseconds) {
     ss << '.' << std::setw(6) << std::setfill('0') << us;
     return ss.str();
 }
-

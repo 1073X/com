@@ -61,4 +61,3 @@ daytime daytime::max() {
 DEF_TO_STRING(miu::com::daytime) {
     return to_string(v.time_since_epoch());
 }
-

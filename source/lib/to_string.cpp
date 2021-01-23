@@ -20,4 +20,3 @@ DEF_TO_STRING(std::string) {
 DEF_TO_STRING(std::string_view) {
     return { v.data(), v.size() };
 }
-
