@@ -3,13 +3,11 @@
 
 namespace std {
 
-std::string
-to_string(char v) {
+std::string to_string(char v) {
     return { v };
 }
 
-std::string
-to_string(std::string_view v) {
+std::string to_string(std::string_view v) {
     return v.data();
 }
 

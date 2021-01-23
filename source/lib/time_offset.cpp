@@ -5,13 +5,11 @@ namespace miu::com {
 
 static microseconds g_time_offset;
 
-microseconds
-time_offset::get() {
+microseconds time_offset::get() {
     return g_time_offset;
 }
 
-void
-time_offset::set(microseconds val) {
+void time_offset::set(microseconds val) {
     g_time_offset = val;
 }
 

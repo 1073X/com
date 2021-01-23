@@ -12,8 +12,7 @@ namespace miu::com {
 
 static_assert(sizeof(int64_t) == sizeof(microseconds));
 
-static microseconds
-cast(std::string_view str) {
+static microseconds cast(std::string_view str) {
     auto c2i = [](char c) {
         if (!std::isdigit(c)) {
             FATAL_ERROR(c, "is not a digit");
@@ -48,8 +47,7 @@ microseconds::microseconds(std::string_view str)
 
 namespace std {
 
-string
-to_string(miu::com::microseconds val) {
+string to_string(miu::com::microseconds val) {
     auto hrs = val.count() / (3600 * 1000000LL);
     auto min = (val.count() % (3600 * 1000000LL)) / (60 * 1000000);
     auto sec = (val.count() % (60 * 1000000LL)) / 1000000;

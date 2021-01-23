@@ -36,26 +36,22 @@ daytime::daytime(std::string_view v)
     }
 }
 
-daytime
-daytime::now() {
+daytime daytime::now() {
     using namespace std::chrono_literals;
     auto time = std::chrono::system_clock::now() + time_offset::get();
     return { time.time_since_epoch() % 24h };
 }
 
-daytime
-daytime::zero() {
+daytime daytime::zero() {
     static daytime const MIN_VAL { 0us };
     return MIN_VAL;
 }
 
-daytime
-daytime::min() {
+daytime daytime::min() {
     return zero();
 }
 
-daytime
-daytime::max() {
+daytime daytime::max() {
     static daytime const MAX_VAL { 24h - 1us };
     return MAX_VAL;
 }
@@ -64,8 +60,7 @@ daytime::max() {
 
 namespace std {
 
-string
-to_string(miu::com::daytime time) {
+string to_string(miu::com::daytime time) {
     return to_string(time.time_since_epoch());
 }
 

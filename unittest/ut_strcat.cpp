@@ -5,8 +5,7 @@ struct st {
 };
 
 namespace std {
-auto
-to_string(st const& t) {
+auto to_string(st const& t) {
     return std::to_string(t.value);
 }
 }    // namespace std

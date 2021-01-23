@@ -23,8 +23,7 @@ namespace miu::com {
 //     [civil_from_days(numeric_limits<Int>::min()),
 //     civil_from_days(numeric_limits<Int>::max()-719468)]
 template<class Int>
-constexpr Int
-days_from_civil(Int y, unsigned m, unsigned d) noexcept {
+constexpr Int days_from_civil(Int y, unsigned m, unsigned d) noexcept {
     static_assert(std::numeric_limits<unsigned>::digits >= 18,
                   "This algorithm has not been ported to a 16 bit "
                   "unsigned integer");
@@ -45,8 +44,7 @@ days_from_civil(Int y, unsigned m, unsigned d) noexcept {
 //                   [numeric_limits<Int>::min(),
 //                   numeric_limits<Int>::max()-719468].
 template<class Int>
-constexpr std::tuple<Int, unsigned, unsigned>
-civil_from_days(Int z) noexcept {
+constexpr std::tuple<Int, unsigned, unsigned> civil_from_days(Int z) noexcept {
     static_assert(std::numeric_limits<unsigned>::digits >= 18,
                   "This algorithm has not been ported to a 16 bit "
                   "unsigned integer");
@@ -66,14 +64,12 @@ civil_from_days(Int z) noexcept {
 }
 
 template<class Int>
-constexpr unsigned
-weekday_from_days(Int z) noexcept {
+constexpr unsigned weekday_from_days(Int z) noexcept {
     return static_cast<unsigned>(z >= -4 ? (z + 4) % 7 : (z + 5) % 7 + 6);
 }
 
 template<class To, class Rep, class Period>
-To
-round_down(const std::chrono::duration<Rep, Period>& d) {
+To round_down(const std::chrono::duration<Rep, Period>& d) {
     To t = std::chrono::duration_cast<To>(d);
     if (t > d) {
         --t;

@@ -12,8 +12,7 @@ namespace miu::com {
 
 static_assert(sizeof(int32_t) == sizeof(date));
 
-static date
-cast(std::string_view str) {
+static date cast(std::string_view str) {
     auto c2i = [](char c) {
         if (!std::isdigit(c)) {
             FATAL_ERROR(c, "is not a digit in date string");
@@ -44,8 +43,7 @@ date::date(std::string_view yyyymmdd)
     : date(cast(yyyymmdd)) {
 }
 
-date
-date::today() {
+date date::today() {
     using namespace std::chrono;
 
     constexpr rep day = 3600 * 24;
@@ -56,18 +54,15 @@ date::today() {
     return date { sec / day };
 }
 
-date
-date::zero() {
+date date::zero() {
     return date();
 }
 
-date
-date::min() {
+date date::min() {
     return zero();
 }
 
-std::tuple<date::rep, date::rep, date::rep>
-date::civil_from_days() const {
+std::tuple<date::rep, date::rep, date::rep> date::civil_from_days() const {
     return miu::com::civil_from_days(time_since_epoch().count());
 }
 
@@ -75,8 +70,7 @@ date::civil_from_days() const {
 
 namespace std {
 
-std::string
-to_string(miu::com::date date) {
+std::string to_string(miu::com::date date) {
     std::ostringstream ss;
     auto [years, months, days] = date.civil_from_days();
     ss << years << std::setw(2) << std::setfill('0') << months << std::setw(2) << std::setfill('0')

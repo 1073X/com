@@ -6,8 +6,7 @@
 #include "strcat.hpp"
 
 template<typename... ARGS>
-void
-SYSTEM_WARN(ARGS&&... args) {    // NOLINT
+void SYSTEM_WARN(ARGS&&... args) {    // NOLINT
     auto time      = miu::com::datetime::now();
     auto delimiter = miu::com::strcat::delimiter { " " };
     auto msg       = miu::com::strcat { "WARN", time, args..., delimiter };
