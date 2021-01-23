@@ -66,13 +66,12 @@ std::tuple<date::rep, date::rep, date::rep> date::civil_from_days() const {
     return miu::com::civil_from_days(time_since_epoch().count());
 }
 
-template<>
-std::string to_string<date>(date const& v) {
+}    // namespace miu::com
+
+DEF_TO_STRING(miu::com::date) {
     std::ostringstream ss;
     auto [years, months, days] = v.civil_from_days();
     ss << years << std::setw(2) << std::setfill('0') << months << std::setw(2) << std::setfill('0')
        << days;
     return ss.str();
 }
-
-}    // namespace miu::com

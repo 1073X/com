@@ -19,7 +19,6 @@ class microseconds : public std::chrono::microseconds {
     microseconds(std::string_view);    // HH:MM:SS.ffffff
 };
 
-template<>
-std::string to_string<microseconds>(microseconds const&);    // HH:MM:SS.ffffff
-
 }    // namespace miu::com
+
+DEF_TO_STRING(miu::com::microseconds);

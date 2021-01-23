@@ -19,12 +19,9 @@ struct st {
     int32_t value;
 };
 
-namespace miu::com {
-template<>
-std::string to_string<st>(st const& v) {
+DEF_TO_STRING(st) {
     return std::to_string(v.value);
 }
-}    // namespace miu::com
 
 TEST(ut_strcat, custom_type) {
     st s { 123 };

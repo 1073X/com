@@ -56,9 +56,8 @@ daytime daytime::max() {
     return MAX_VAL;
 }
 
-template<>
-std::string to_string<daytime>(daytime const& v) {
+}    // namespace miu::com
+
+DEF_TO_STRING(miu::com::daytime) {
     return to_string(v.time_since_epoch());
 }
-
-}    // namespace miu::com

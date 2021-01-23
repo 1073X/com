@@ -17,8 +17,8 @@ class days : public days_base {
     days(std::chrono::duration<R, P> const& du)
         : days(std::chrono::duration_cast<days_base>(du).count()) {}
 };
-
-template<>
-std::string to_string<days>(days const&);
+static_assert(sizeof(int32_t) == sizeof(days));
 
 }    // namespace miu::com
+
+DEF_TO_STRING(miu::com::days);
