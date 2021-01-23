@@ -4,7 +4,6 @@
 #include <cassert>
 #include <cctype>    // std::isdigit
 #include <iomanip>
-#include <sstream>
 
 #include "com/fatal_error.hpp"
 
@@ -43,22 +42,19 @@ microseconds::microseconds(std::string_view str)
     : microseconds(cast(str)) {
 }
 
-}    // namespace miu::com
-
-namespace std {
-
-string to_string(miu::com::microseconds val) {
+template<>
+std::string to_string<microseconds>(microseconds const& val) {
     auto hrs = val.count() / (3600 * 1000000LL);
     auto min = (val.count() % (3600 * 1000000LL)) / (60 * 1000000);
     auto sec = (val.count() % (60 * 1000000LL)) / 1000000;
     auto us  = val.count() % 1000000;
 
-    ostringstream ss;
-    ss << setw(2) << setfill('0') << hrs;
-    ss << ':' << setw(2) << setfill('0') << min;
-    ss << ':' << setw(2) << setfill('0') << sec;
-    ss << '.' << setw(6) << setfill('0') << us;
+    std::ostringstream ss;
+    ss << std::setw(2) << std::setfill('0') << hrs;
+    ss << ':' << std::setw(2) << std::setfill('0') << min;
+    ss << ':' << std::setw(2) << std::setfill('0') << sec;
+    ss << '.' << std::setw(6) << std::setfill('0') << us;
     return ss.str();
 }
 
-}    // namespace std
+}    // namespace miu::com

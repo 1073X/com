@@ -112,5 +112,5 @@ TYPED_TEST_SUITE(ut_var_num_str, str_pairs);
 TYPED_TEST(ut_var_num_str, test) {
     TypeParam val = 123;
     variant var { val };
-    EXPECT_EQ(std::to_string(val), var.get<std::string>());
+    EXPECT_EQ(miu::com::to_string(val), var.get<std::string>());
 }

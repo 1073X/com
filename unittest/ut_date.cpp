@@ -33,7 +33,7 @@ TEST(ut_date, create_from_string) {
 
 TEST(ut_date, to_string) {
     auto val = date { 2021, 1, 3 };
-    EXPECT_EQ("20210103", std::to_string(val));
+    EXPECT_EQ("20210103", miu::com::to_string(val));
 }
 
 TEST(ut_date, today) {

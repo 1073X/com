@@ -1,6 +1,7 @@
 
 #include "com/datetime.hpp"
 
+#include "com/strcat.hpp"
 #include "com/time_offset.hpp"
 
 namespace miu::com {
@@ -54,10 +55,8 @@ daytime datetime::time() const {
     return { time_since_epoch() - date().time_since_epoch() };
 }
 
-}    // namespace miu::com
-
-namespace std {
-string to_string(miu::com::datetime v) {
-    return to_string(v.date()) + ' ' + to_string(v.time());
+template<>
+std::string to_string<datetime>(datetime const& v) {
+    return strcat { v.date(), v.time(), strcat::delimiter { " " } }.str();
 }
-}    // namespace std
+}    // namespace miu::com

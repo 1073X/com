@@ -13,10 +13,6 @@ ENUM to_enum(T val) {
     return opt.value();
 }
 
-}    // namespace miu::com
-
-namespace std {
-
 template<typename T>
 const char* to_string(T val) {
     static auto constexpr names = magic_enum::enum_names<T>();
@@ -29,4 +25,4 @@ const char* to_string(T val) {
     return str;
 }
 
-}    // namespace std
+}    // namespace miu::com
