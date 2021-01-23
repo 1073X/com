@@ -5,7 +5,7 @@
 namespace miu::com {
 
 template<typename ENUM, typename T>
-ENUM to_enum(T val) {
+ENUM val_to_enum(T val) {
     auto opt = magic_enum::enum_cast<ENUM>(val);
     if (!opt.has_value()) {
         return ENUM::MAX;
@@ -13,11 +13,8 @@ ENUM to_enum(T val) {
     return opt.value();
 }
 
-}    // namespace miu::com
-
-namespace std {
 template<typename T>
-const char* to_string(T val) {
+const char* enum_to_str(T val) {
     static auto constexpr names = magic_enum::enum_names<T>();
 
     auto idx = magic_enum::enum_integer(val);
@@ -27,4 +24,5 @@ const char* to_string(T val) {
     }
     return str;
 }
-}    // namespace std
+
+}    // namespace miu::com
