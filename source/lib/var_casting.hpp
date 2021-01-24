@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <optional>
 #include <vector>
 
@@ -18,7 +19,7 @@ class var_casting {
     }
 
   protected:
-    using func_type = std::optional<target_type> (*)(variant const*);
+    using func_type = std::function<std::optional<target_type>(variant const*)>;
 
     void support(uint8_t id, func_type func) { _vec[id] = func; }
 

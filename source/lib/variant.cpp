@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "var_boolean.hpp"
+#include "var_chrono.hpp"
 #include "var_decimal.hpp"
 #include "var_number.hpp"
 #include "var_string.hpp"
@@ -158,6 +159,8 @@ DEFAULT_GET(wchar_t const*);
 DEFAULT_SET(microseconds);
 template<>
 std::optional<microseconds> variant::get<microseconds>() const {
+    static var_chrono<microseconds> cast;
+
     switch (_id) {
     case type_id<microseconds>::value:
         return *(microseconds const*)_value;
@@ -167,18 +170,29 @@ std::optional<microseconds> variant::get<microseconds>() const {
         return microseconds { (const char*)_value };
     case type_id<int64_t>::value:
         return microseconds { *(int64_t const*)_value };
-    // TBD: map other integer type ...
     default:
-        return std::nullopt;
+        return cast(this);
     }
 }
 
 DEFAULT_SET(days);
-DEFAULT_GET(days);
+template<>
+std::optional<days> variant::get<days>() const {
+    static var_chrono<days> cast;
+
+    switch (_id) {
+    case type_id<days>::value:
+        return *(days*)_value;
+    default:
+        return cast(this);
+    }
+}
 
 DEFAULT_SET(date);
 template<>
 std::optional<date> variant::get<date>() const {
+    static var_chrono<date> cast;
+
     switch (_id) {
     case type_id<date>::value:
         return *(date const*)_value;
@@ -187,13 +201,15 @@ std::optional<date> variant::get<date>() const {
     case type_id<std::string>::value:
         return date { (const char*)_value };
     default:
-        return std::nullopt;
+        return cast(this);
     }
 }
 
 DEFAULT_SET(daytime);
 template<>
 std::optional<daytime> variant::get<daytime>() const {
+    static var_chrono<daytime> cast;
+
     switch (_id) {
     case type_id<daytime>::value:
         return *(daytime const*)_value;
@@ -202,20 +218,22 @@ std::optional<daytime> variant::get<daytime>() const {
     case type_id<std::string>::value:
         return daytime { (const char*)_value };
     default:
-        return std::nullopt;
+        return cast(this);
     }
 }
 
 DEFAULT_SET(datetime);
 template<>
 std::optional<datetime> variant::get<datetime>() const {
+    static var_chrono<datetime> cast;
+
     switch (_id) {
     case type_id<datetime>::value:
         return *(datetime const*)_value;
     case type_id<const char*>::value:
         return datetime { (const char*)*_value };
     default:
-        return std::nullopt;
+        return cast(this);
     }
 }
 
