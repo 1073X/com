@@ -79,9 +79,6 @@ TEST_F(ut_var_chrono, datetime) {
 }
 
 //////////////////////////////////////////////////
-template<typename>
-struct ut_var_num_chrono : public testing::Test {};
-
 using pairs = testing::Types<std::pair<int8_t, days>,
                              std::pair<int16_t, days>,
                              std::pair<int32_t, days>,
@@ -127,11 +124,24 @@ using pairs = testing::Types<std::pair<int8_t, days>,
                              std::pair<uint32_t, datetime>,
                              std::pair<uint64_t, datetime>>;
 
+//////////////////////////////////////////////
+template<typename>
+struct ut_var_num_chrono : public testing::Test {};
+
 TYPED_TEST_SUITE(ut_var_num_chrono, pairs);
 
-TYPED_TEST(ut_var_num_chrono, get) {
+TYPED_TEST(ut_var_num_chrono, num_to_chrono) {
     using source_type = typename TypeParam::first_type;
     using target_type = typename TypeParam::second_type;
+
+    auto val = source_type { 123 };
+    auto var = variant { val };
+    EXPECT_EQ(target_type(123), var.get<target_type>());
+}
+
+TYPED_TEST(ut_var_num_chrono, chrono_to_num) {
+    using target_type = typename TypeParam::first_type;
+    using source_type = typename TypeParam::second_type;
 
     auto val = source_type { 123 };
     auto var = variant { val };

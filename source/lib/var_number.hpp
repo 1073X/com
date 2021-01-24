@@ -20,6 +20,12 @@ class var_number : public var_casting<target_type> {
         accept<uint16_t>();
         accept<uint32_t>();
         accept<uint64_t>();
+
+        accept_chrono<days>();
+        accept_chrono<microseconds>();
+        accept_chrono<date>();
+        accept_chrono<daytime>();
+        accept_chrono<datetime>();
     }
 
   private:
@@ -126,6 +132,24 @@ class var_number : public var_casting<target_type> {
                                   <= std::numeric_limits<target_type>::digits;
         auto func = &action<is_source_signed, is_target_signed, is_promoted, source_type>::cast;
         this->support(type_id<source_type>::value, func);
+    }
+
+    template<typename chrono_type>
+    void accept_chrono() {
+        using source_type = typename chrono_type::rep;
+
+        auto constexpr is_source_signed = std::is_signed<source_type>::value;
+        auto constexpr is_target_signed = std::is_signed<target_type>::value;
+        auto constexpr is_promoted      = std::numeric_limits<source_type>::digits
+                                  <= std::numeric_limits<target_type>::digits;
+        auto func = &action<is_source_signed, is_target_signed, is_promoted, source_type>::cast;
+        this->support(type_id<chrono_type>::value, [func](auto var) -> std::optional<target_type> {
+            auto val = func(var);
+            if (val) {
+                return target_type { val.value() };
+            }
+            return std::nullopt;
+        });
     }
 };
 
