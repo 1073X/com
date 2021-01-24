@@ -26,6 +26,9 @@ class variant {
     variant(std::string_view const&);
     variant(std::string const&);
 
+    bool operator!=(variant) const;
+    auto operator==(variant rhs) const { return !operator!=(rhs); }
+
     template<typename T>
     variant(T const& v)
         : _id { type_id<T>::value } {
