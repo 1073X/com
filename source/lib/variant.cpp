@@ -30,6 +30,12 @@
 
 namespace miu::com {
 
+bool variant::operator!=(variant another) const {
+    auto lhs = &_value[0];
+    auto rhs = &another._value[0];
+    return lhs[1] != rhs[1] || lhs[0] != rhs[0];
+}
+
 // boolean
 DEFAULT_SET(bool);
 template<>

@@ -28,3 +28,17 @@ TEST(ut_variant, wcstr) {
     EXPECT_EQ(type_id<const wchar_t*>::value, val.id());
     EXPECT_EQ(str, val.get<const wchar_t*>());
 }
+
+TEST(ut_variant, equility) {
+    auto var1 = variant { 1 };
+    auto var2 = variant { 1 };
+    EXPECT_EQ(var1, var2);
+
+    // different value
+    auto var3 = variant { 2 };
+    EXPECT_NE(var1, var3);
+
+    // different type
+    auto var4 = variant { +"abc" };
+    EXPECT_NE(var1, var4);
+}
