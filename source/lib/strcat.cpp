@@ -9,12 +9,19 @@ strcat::strcat(delimiter del)
     : _delimiter { std::move(del) } {
 }
 
+uint32_t strcat::size() const {
+    return _items.size();
+}
+
 std::string strcat::str() const {
     std::ostringstream ss;
-    for (auto i = _vec.size() - 1; i > 0; i--) {
-        ss << _vec[i] << _delimiter.val;
+    if (!_items.empty()) {
+        auto it = _items.begin();
+        for (auto i = 0U; i < _items.size() - 1; i++) {
+            ss << *it++ << _delimiter.val;
+        }
+        ss << *it;
     }
-    ss << _vec[0];
     return ss.str();
 }
 
