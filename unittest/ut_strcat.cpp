@@ -27,3 +27,20 @@ TEST(ut_strcat, custom_type) {
     st s { 123 };
     EXPECT_EQ("1.123", miu::com::strcat(1, s).str());
 }
+
+TEST(ut_strcat, as_container) {
+    miu::com::strcat cat { 1, 2, 3 };
+    EXPECT_EQ(3U, cat.size());
+    EXPECT_EQ("1", cat[0]);
+    EXPECT_EQ("2", cat[1]);
+    EXPECT_EQ("3", cat[2]);
+
+    auto it = cat.begin();
+    EXPECT_EQ("1", *it);
+    it++;
+    EXPECT_EQ("2", *it);
+    it++;
+    EXPECT_EQ("3", *it);
+    it++;
+    EXPECT_EQ(cat.end(), it);
+}
