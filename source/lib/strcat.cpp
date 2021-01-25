@@ -1,6 +1,8 @@
 
 #include "com/strcat.hpp"
 
+#include <sstream>
+
 namespace miu::com {
 
 strcat::strcat(delimiter del)
@@ -8,12 +10,12 @@ strcat::strcat(delimiter del)
 }
 
 std::string strcat::str() const {
-    auto it = _str.begin();
-    return { it, it + _str.size() - _delimiter.val.size() };
-}
-
-void strcat::push(std::string_view v) {
-    _str = v.data() + _delimiter.val + _str;
+    std::ostringstream ss;
+    for (auto i = _vec.size() - 1; i > 0; i--) {
+        ss << _vec[i] << _delimiter.val;
+    }
+    ss << _vec[0];
+    return ss.str();
 }
 
 }    // namespace miu::com

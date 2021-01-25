@@ -27,3 +27,6 @@ TEST(ut_strcat, custom_type) {
     st s { 123 };
     EXPECT_EQ("1.123", miu::com::strcat(1, s).str());
 }
+
+TEST(ut_strcat, as_container) {
+}
