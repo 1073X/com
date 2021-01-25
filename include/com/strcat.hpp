@@ -35,3 +35,5 @@ class strcat {
 };
 
 }    // namespace miu::com
+
+DEF_TO_STRING(miu::com::strcat);

@@ -19,3 +19,7 @@ std::string strcat::str() const {
 }
 
 }    // namespace miu::com
+
+DEF_TO_STRING(miu::com::strcat) {
+    return v.str();
+}
