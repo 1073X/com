@@ -23,6 +23,12 @@ class strcat {
 
     std::string str() const;
 
+    auto size() const { return _vec.size(); }
+    auto operator[](uint32_t i) const { return _vec[_vec.size() - i - 1]; }
+
+    auto begin() const { return _vec.rbegin(); }
+    auto end() const { return _vec.rend(); }
+
   private:
     delimiter _delimiter;
     std::vector<std::string> _vec;
