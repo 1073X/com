@@ -25,6 +25,24 @@ std::string strcat::str() const {
     return ss.str();
 }
 
+strcat& strcat::push_front(strcat const& another) {
+    if (another._delimiter.val == _delimiter.val) {
+        _items.insert(_items.begin(), another._items.begin(), another._items.end());
+    } else {
+        push_front(another.str());
+    }
+    return *this;
+}
+
+strcat& strcat::push_back(strcat const& another) {
+    if (another._delimiter.val == _delimiter.val) {
+        _items.insert(_items.end(), another._items.begin(), another._items.end());
+    } else {
+        push_back(another.str());
+    }
+    return *this;
+}
+
 }    // namespace miu::com
 
 DEF_TO_STRING(miu::com::strcat) {

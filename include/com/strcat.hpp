@@ -15,10 +15,21 @@ class strcat {
   public:
     explicit strcat(delimiter = { "." });
 
+    strcat(strcat const& another, delimiter del = { "." })
+        : strcat(del) {
+        push_front(another);
+    }
+
     template<typename T, typename... ARGS>
     strcat(T const& t, ARGS&&... args)
         : strcat(std::forward<ARGS>(args)...) {
         push_front(t);
+    }
+
+    template<typename... ARGS>
+    strcat(strcat const& another, ARGS&&... args)
+        : strcat(std::forward<ARGS>(args)...) {
+        push_front(another);
     }
 
     std::string str() const;
@@ -30,11 +41,15 @@ class strcat {
         return *this;
     }
 
+    strcat& push_front(strcat const&);
+
     template<typename T>
     auto& push_back(T const& t) {
         _items.push_back(to_string(t));
         return *this;
     }
+
+    strcat& push_back(strcat const&);
 
     template<typename T>
     auto& operator+=(T const& t) {
@@ -43,9 +58,7 @@ class strcat {
 
     template<typename T>
     auto operator+(T const& t) {
-        auto val = *this;
-        val.push_back(t);
-        return val;
+        return strcat { *this, t };
     }
 
     auto begin() const { return _items.begin(); }
