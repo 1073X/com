@@ -8,6 +8,7 @@ TEST(ut_strcat, concat) {
     std::string_view view { "view" };
     miu::com::strcat cat { array, 'b', 1, view, &array[0], str };
     EXPECT_EQ("array.b.1.view.array.string", cat.str());
+    EXPECT_EQ(cat.str(), miu::com::to_string(cat));
 }
 
 TEST(ut_strcat, delimiter) {
