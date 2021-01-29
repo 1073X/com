@@ -237,4 +237,39 @@ std::optional<datetime> variant::get<datetime>() const {
     }
 }
 
+#define CASE_TO_STRING(TYPE)   \
+    case type_id<TYPE>::value: \
+        return "[" #TYPE ":" + to_string(v.get<TYPE>().value()) + "]";
+
+template<>
+std::string to_string<variant>(variant const& v) {
+    switch (v.id()) {
+    case type_id<bool>::value:
+        return std::string("[bool:") + (v.get<bool>().value() ? "true]" : "false]");
+
+        CASE_TO_STRING(char);
+        CASE_TO_STRING(int8_t);
+        CASE_TO_STRING(int16_t);
+        CASE_TO_STRING(int32_t);
+        CASE_TO_STRING(int64_t);
+        CASE_TO_STRING(uint8_t);
+        CASE_TO_STRING(uint16_t);
+        CASE_TO_STRING(uint32_t);
+        CASE_TO_STRING(uint64_t);
+        CASE_TO_STRING(float);
+        CASE_TO_STRING(double);
+        CASE_TO_STRING(std::string);
+        CASE_TO_STRING(const char*);
+        CASE_TO_STRING(microseconds);
+        CASE_TO_STRING(days);
+        CASE_TO_STRING(date);
+        CASE_TO_STRING(daytime);
+        CASE_TO_STRING(datetime);
+
+    default:
+        return "[unknown variant]";
+    }
+}
+
 }    // namespace miu::com
+

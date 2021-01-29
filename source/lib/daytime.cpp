@@ -59,5 +59,16 @@ daytime daytime::max() {
 }    // namespace miu::com
 
 DEF_TO_STRING(miu::com::daytime) {
-    return to_string(v.time_since_epoch());
+    auto epoch = v.time_since_epoch();
+    auto hrs   = epoch.count() / (3600 * 1000000LL);
+    auto min   = (epoch.count() % (3600 * 1000000LL)) / (60 * 1000000);
+    auto sec   = (epoch.count() % (60 * 1000000LL)) / 1000000;
+    auto us    = epoch.count() % 1000000;
+
+    std::ostringstream ss;
+    ss << std::setw(2) << std::setfill('0') << hrs;
+    ss << ':' << std::setw(2) << std::setfill('0') << min;
+    ss << ':' << std::setw(2) << std::setfill('0') << sec;
+    ss << '.' << std::setw(6) << std::setfill('0') << us;
+    return ss.str();
 }
