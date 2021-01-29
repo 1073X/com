@@ -33,6 +33,8 @@ delivery:
         - mkdir -p $INC_PATH
         - rm -fr $INC_PATH/com
         - cp -frv ./include/com $INC_PATH
+        - rm -fr $INC_PATH/meta
+        - cp -frv ./include/meta $INC_PATH
 
         - mkdir -p $DBG_PATH
         - cp -fv debug/libcom.a $DBG_PATH
