@@ -26,7 +26,7 @@ TEST_F(ut_var_chrono, microseconds) {
     variant var { val };
     EXPECT_EQ(type_id<microseconds>::value, var.id());
     EXPECT_EQ(val, var.get<microseconds>().value());
-    EXPECT_EQ("00:00:00.000001", var.get<std::string>().value());
+    EXPECT_EQ("1us", var.get<std::string>().value());
 
     auto str = +"24:01:01.000001";
     auto exp = microseconds(24h + 1min + 1s + 1us);

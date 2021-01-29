@@ -45,15 +45,7 @@ microseconds::microseconds(std::string_view str)
 }    // namespace miu::com
 
 DEF_TO_STRING(miu::com::microseconds) {
-    auto hrs = v.count() / (3600 * 1000000LL);
-    auto min = (v.count() % (3600 * 1000000LL)) / (60 * 1000000);
-    auto sec = (v.count() % (60 * 1000000LL)) / 1000000;
-    auto us  = v.count() % 1000000;
-
     std::ostringstream ss;
-    ss << std::setw(2) << std::setfill('0') << hrs;
-    ss << ':' << std::setw(2) << std::setfill('0') << min;
-    ss << ':' << std::setw(2) << std::setfill('0') << sec;
-    ss << '.' << std::setw(6) << std::setfill('0') << us;
+    ss << v.count() << "us";
     return ss.str();
 }

@@ -33,8 +33,8 @@ TEST(ut_microseconds, create_from_string) {
 }
 
 TEST(ut_microseconds, to_string) {
-    auto str = "01:02:03.999999";
-    EXPECT_EQ(str, miu::com::to_string(microseconds { str }));
+    auto str = "00:00:00.999999";
+    EXPECT_EQ("999999us", miu::com::to_string(microseconds { str }));
 }
 
 TEST(ut_microseconds, extreme) {

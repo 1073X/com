@@ -7,6 +7,7 @@
 #include "daytime.hpp"
 #include "predict.hpp"
 #include "system_warn.hpp"
+#include "to_string.hpp"
 
 namespace miu::com {
 
@@ -53,6 +54,8 @@ class variant {
 static_assert(sizeof(variant) == 16);
 
 }    // namespace miu::com
+
+DEF_TO_STRING(miu::com::variant);
 
 #define DEF_VARIANT(TYPE, ID)                             \
     template<>                                            \
