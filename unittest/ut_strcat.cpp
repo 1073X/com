@@ -51,6 +51,15 @@ TEST(ut_strcat, concat) {
     EXPECT_EQ("0.1-2-3.1-2-3", cat.str());
 }
 
+TEST(ut_strcat, vector) {
+    std::vector vec { 1, 2, 3 };
+    miu::com::strcat cat { vec };
+    EXPECT_EQ("1.2.3", cat.str());
+
+    cat += std::vector { "a", "b" };
+    EXPECT_EQ("1.2.3.a.b", cat.str());
+}
+
 TEST(ut_strcat, delimiter) {
     miu::com::strcat cat { 1, 2, miu::com::strcat::delimiter { "---" } };
     EXPECT_EQ("1---2", cat.str());

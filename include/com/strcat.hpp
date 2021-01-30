@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <vector>
 
 #include "to_string.hpp"
 
@@ -43,6 +44,14 @@ class strcat {
 
     strcat& push_front(strcat const&);
 
+    template<typename T, typename ALLOCATOR>
+    strcat& push_front(std::vector<T, ALLOCATOR> const& vec) {
+        for (auto it = vec.rbegin(); it != vec.rend(); it++) {
+            push_front(*it);
+        }
+        return *this;
+    }
+
     template<typename T>
     auto& push_back(T const& t) {
         _items.push_back(to_string(t));
@@ -50,6 +59,14 @@ class strcat {
     }
 
     strcat& push_back(strcat const&);
+
+    template<typename T, typename ALLOCATOR>
+    auto& push_back(std::vector<T, ALLOCATOR> const& vec) {
+        for (auto const& v : vec) {
+            push_back(v);
+        }
+        return *this;
+    }
 
     template<typename T>
     auto& operator+=(T const& t) {
