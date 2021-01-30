@@ -26,6 +26,9 @@ class var_number : public var_casting<target_type> {
         accept_chrono<date>();
         accept_chrono<daytime>();
         accept_chrono<datetime>();
+
+        accept_string<const char*>();
+        accept_string<std::string>();
     }
 
   private:
@@ -145,6 +148,47 @@ class var_number : public var_casting<target_type> {
         auto func = &action<is_source_signed, is_target_signed, is_promoted, source_type>::cast;
         this->support(type_id<chrono_type>::value, [func](auto var) -> std::optional<target_type> {
             auto val = func(var);
+            if (val) {
+                return target_type { val.value() };
+            }
+            return std::nullopt;
+        });
+    }
+
+    template<typename string_type>
+    void accept_string() {
+        using source_type = int64_t;
+
+        auto constexpr is_source_signed = std::is_signed<source_type>::value;
+        auto constexpr is_target_signed = std::is_signed<target_type>::value;
+        auto constexpr is_promoted      = std::numeric_limits<source_type>::digits
+                                  <= std::numeric_limits<target_type>::digits;
+        auto func = &action<is_source_signed, is_target_signed, is_promoted, source_type>::cast;
+        this->support(type_id<string_type>::value, [func](auto var) -> std::optional<target_type> {
+            auto str = var->template get<std::string>().value();
+            if (str.empty()) {
+                return std::nullopt;
+            }
+
+            auto it   = str.begin();
+            auto sign = 1;
+            if (*it == '-') {
+                sign = -1;
+                it++;
+            }
+
+            auto src = (source_type)0;
+            while (it < str.end()) {
+                if (!std::isdigit(*it)) {
+                    return std::nullopt;
+                }
+                src *= 10;
+                src += *it - '0';
+                it++;
+            }
+
+            auto tmp = variant(src * sign);
+            auto val = func(&tmp);
             if (val) {
                 return target_type { val.value() };
             }
