@@ -12,14 +12,14 @@ static char g_type[64]     = "UKN_TYPE";
 static char g_name[64]     = "UKN_NAME";
 static char g_info[256]    = "UKN_CATE.UKN_TYPE.UKN_NAME";
 
-std::string_view info() {
+const char* info() {
     return g_info;
 }
 void set_info() {
     std::snprintf(g_info, sizeof(g_info), "%s.%s.%s", g_category, g_type, g_name);
 }
 
-std::string_view category() {
+const char* category() {
     return g_category;
 }
 void set_category(std::string_view v) {
@@ -27,7 +27,7 @@ void set_category(std::string_view v) {
     set_info();
 }
 
-std::string_view type() {
+const char* type() {
     return g_type;
 }
 void set_type(std::string_view v) {
@@ -35,7 +35,7 @@ void set_type(std::string_view v) {
     set_info();
 }
 
-std::string_view name() {
+const char* name() {
     return g_name;
 }
 void set_name(std::string_view v) {
