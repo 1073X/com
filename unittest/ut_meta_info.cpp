@@ -2,21 +2,13 @@
 
 #include "meta/info.hpp"
 
-#if 0
-namespace miu::meta {
-std::string_view category() {
-    return +"test";
-}
-std::string_view type() {
-    return +"unittest";
-}
-std::string_view name() {
-    return +"ut_com";
-}
-}    // namespace miu::meta
-#endif
-
 TEST(ut_meta_info, info) {
-    EXPECT_EQ("miu.test.unittest.ut_com", miu::meta::info());
+    EXPECT_EQ("UKN_CATE.UKN_TYPE.UKN_NAME", miu::meta::info());
+
+    miu::meta::set_category("test");
+    miu::meta::set_type("unittest");
+    miu::meta::set_name("ut_com");
+
+    EXPECT_EQ("test.unittest.ut_com", miu::meta::info());
 }
 
