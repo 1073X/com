@@ -29,6 +29,9 @@ class var_number : public var_casting<target_type> {
 
         accept_string<const char*>();
         accept_string<std::string>();
+
+        accept_decimal<double>();
+        accept_decimal<float>();
     }
 
   private:
@@ -191,6 +194,23 @@ class var_number : public var_casting<target_type> {
             auto val = func(&tmp);
             if (val) {
                 return target_type { val.value() };
+            }
+            return std::nullopt;
+        });
+    }
+
+    template<typename decimal_type>
+    void accept_decimal() {
+        // TBD: cannot convert extreme value of 64 bytes signed/unsigned integer
+        this->support(type_id<decimal_type>::value, [](auto var) -> std::optional<target_type> {
+            constexpr auto tag_min = decimal_type { std::numeric_limits<target_type>::lowest() };
+            constexpr auto tag_max = decimal_type { std::numeric_limits<target_type>::max() };
+
+            decimal_type dec_val = *(decimal_type const*)var;
+            decimal_type int_val = std::round(dec_val);
+            if (std::fabs(dec_val - int_val) < 0.000000001 && int_val <= tag_max
+                && int_val >= tag_min) {
+                return static_cast<target_type>(int_val);
             }
             return std::nullopt;
         });
