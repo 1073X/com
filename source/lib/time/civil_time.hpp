@@ -4,7 +4,7 @@
 #include <chrono>
 #include <tuple>
 
-namespace miu::com {
+namespace miu::time::details {
 
 //////////////////////////////////////////////////////////////
 // https://stackoverflow.com/questions/16773285/how-to-convert-stdbasetime-point-to-stdtm-without-using-time-t
@@ -77,4 +77,4 @@ To round_down(const std::chrono::duration<Rep, Period>& d) {
     return t;
 }
 
-}    // namespace miu::com
+}    // namespace miu::time::details

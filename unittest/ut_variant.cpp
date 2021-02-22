@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "com/variant.hpp"
+#include "time/stamp.hpp"
 
 using miu::com::type_id;
 using miu::com::variant;
@@ -47,6 +48,8 @@ TEST(ut_variant, to_string) {
     using miu::com::to_string;
 
     EXPECT_EQ("[bool:true]", to_string(variant(true)));
+    EXPECT_EQ("[bool:false]", to_string(variant(false)));
+
     EXPECT_EQ("[char:a]", to_string(variant('a')));
     EXPECT_EQ("[int8_t:1]", to_string(variant((int8_t)1)));
     EXPECT_EQ("[int16_t:1]", to_string(variant((int16_t)1)));
@@ -61,10 +64,15 @@ TEST(ut_variant, to_string) {
     EXPECT_EQ("[const char*:a b c]", to_string(variant(+"a b c")));
     EXPECT_EQ("[std::string:a b c]", to_string(variant(std::string("a b c"))));
 
-    EXPECT_EQ("[microseconds:100us]", to_string(variant(miu::com::microseconds(100))));
-    EXPECT_EQ("[days:1d]", to_string(variant(miu::com::days(1))));
-    EXPECT_EQ("[date:20210129]", to_string(variant(miu::com::date(2021, 1, 29))));
-    EXPECT_EQ("[daytime:12:10:30.000001]", to_string(variant(miu::com::daytime(12, 10, 30, 1))));
-    EXPECT_EQ("[datetime:20210129 12:10:30.000001]",
-              to_string(variant(miu::com::datetime(2021, 1, 29, 12, 10, 30, 1))));
+    EXPECT_EQ("[time::delta:100ms]", to_string(variant(miu::time::delta(100))));
+    EXPECT_EQ("[time::days:1d]", to_string(variant(miu::time::days(1))));
+    EXPECT_EQ("[time::date:20210129]", to_string(variant(miu::time::date(2021, 1, 29))));
+    EXPECT_EQ(
+        "[time::daytime:12:10:30.001]", to_string(variant(miu::time::daytime(12, 10, 30, 1))));
+    EXPECT_EQ("[time::stamp:20210129 12:10:30.001]",
+              to_string(variant(miu::time::stamp(2021, 1, 29, 12, 10, 30, 1))));
+
+    EXPECT_EQ("[UNK_VAR:14]", to_string(variant(L'害')));
+
+    EXPECT_EQ("[void:N/A]", to_string(variant()));
 }

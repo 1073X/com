@@ -1,15 +1,16 @@
 #include <gtest/gtest.h>
 
 #include "com/variant.hpp"
+#include "time/stamp.hpp"
 
 using namespace std::chrono_literals;
-using miu::com::date;
-using miu::com::datetime;
-using miu::com::days;
-using miu::com::daytime;
-using miu::com::microseconds;
 using miu::com::type_id;
 using miu::com::variant;
+using miu::time::date;
+using miu::time::days;
+using miu::time::daytime;
+using miu::time::delta;
+using miu::time::stamp;
 
 using pairs = testing::Types<std::pair<int8_t, days>,
                              std::pair<int16_t, days>,
@@ -20,14 +21,14 @@ using pairs = testing::Types<std::pair<int8_t, days>,
                              std::pair<uint32_t, days>,
                              std::pair<uint64_t, days>,
 
-                             std::pair<int8_t, microseconds>,
-                             std::pair<int16_t, microseconds>,
-                             std::pair<int32_t, microseconds>,
-                             std::pair<int64_t, microseconds>,
-                             std::pair<uint8_t, microseconds>,
-                             std::pair<uint16_t, microseconds>,
-                             std::pair<uint32_t, microseconds>,
-                             std::pair<uint64_t, microseconds>,
+                             std::pair<int8_t, delta>,
+                             std::pair<int16_t, delta>,
+                             std::pair<int32_t, delta>,
+                             std::pair<int64_t, delta>,
+                             std::pair<uint8_t, delta>,
+                             std::pair<uint16_t, delta>,
+                             std::pair<uint32_t, delta>,
+                             std::pair<uint64_t, delta>,
 
                              std::pair<int8_t, date>,
                              std::pair<int16_t, date>,
@@ -47,14 +48,14 @@ using pairs = testing::Types<std::pair<int8_t, days>,
                              std::pair<uint32_t, daytime>,
                              std::pair<uint64_t, daytime>,
 
-                             std::pair<int8_t, datetime>,
-                             std::pair<int16_t, datetime>,
-                             std::pair<int32_t, datetime>,
-                             std::pair<int64_t, datetime>,
-                             std::pair<uint8_t, datetime>,
-                             std::pair<uint16_t, datetime>,
-                             std::pair<uint32_t, datetime>,
-                             std::pair<uint64_t, datetime>>;
+                             std::pair<int8_t, stamp>,
+                             std::pair<int16_t, stamp>,
+                             std::pair<int32_t, stamp>,
+                             std::pair<int64_t, stamp>,
+                             std::pair<uint8_t, stamp>,
+                             std::pair<uint16_t, stamp>,
+                             std::pair<uint32_t, stamp>,
+                             std::pair<uint64_t, stamp>>;
 
 //////////////////////////////////////////////
 template<typename>

@@ -8,7 +8,6 @@
 #include <iostream>
 
 #include "var_boolean.hpp"
-#include "var_chrono.hpp"
 #include "var_decimal.hpp"
 #include "var_number.hpp"
 #include "var_string.hpp"
@@ -155,88 +154,6 @@ DEFAULT_GET(wchar_t);
 DEFAULT_SET(wchar_t const*);
 DEFAULT_GET(wchar_t const*);
 
-// chrono
-DEFAULT_SET(microseconds);
-template<>
-std::optional<microseconds> variant::get<microseconds>() const {
-    static var_chrono<microseconds> cast;
-
-    switch (_id) {
-    case type_id<microseconds>::value:
-        return *(microseconds const*)_value;
-    case type_id<const char*>::value:
-        return microseconds { (const char*)*_value };
-    case type_id<std::string>::value:
-        return microseconds { (const char*)_value };
-    case type_id<int64_t>::value:
-        return microseconds { *(int64_t const*)_value };
-    default:
-        return cast(this);
-    }
-}
-
-DEFAULT_SET(days);
-template<>
-std::optional<days> variant::get<days>() const {
-    static var_chrono<days> cast;
-
-    switch (_id) {
-    case type_id<days>::value:
-        return *(days*)_value;
-    default:
-        return cast(this);
-    }
-}
-
-DEFAULT_SET(date);
-template<>
-std::optional<date> variant::get<date>() const {
-    static var_chrono<date> cast;
-
-    switch (_id) {
-    case type_id<date>::value:
-        return *(date const*)_value;
-    case type_id<const char*>::value:
-        return date { (const char*)*_value };
-    case type_id<std::string>::value:
-        return date { (const char*)_value };
-    default:
-        return cast(this);
-    }
-}
-
-DEFAULT_SET(daytime);
-template<>
-std::optional<daytime> variant::get<daytime>() const {
-    static var_chrono<daytime> cast;
-
-    switch (_id) {
-    case type_id<daytime>::value:
-        return *(daytime const*)_value;
-    case type_id<const char*>::value:
-        return daytime { (const char*)*_value };
-    case type_id<std::string>::value:
-        return daytime { (const char*)_value };
-    default:
-        return cast(this);
-    }
-}
-
-DEFAULT_SET(datetime);
-template<>
-std::optional<datetime> variant::get<datetime>() const {
-    static var_chrono<datetime> cast;
-
-    switch (_id) {
-    case type_id<datetime>::value:
-        return *(datetime const*)_value;
-    case type_id<const char*>::value:
-        return datetime { (const char*)*_value };
-    default:
-        return cast(this);
-    }
-}
-
 #define CASE_TO_STRING(TYPE)   \
     case type_id<TYPE>::value: \
         return "[" #TYPE ":" + to_string(v.get<TYPE>().value()) + "]";
@@ -244,6 +161,9 @@ std::optional<datetime> variant::get<datetime>() const {
 template<>
 std::string to_string<variant>(variant const& v) {
     switch (v.id()) {
+    case type_id<void>::value:
+        return "[void:N/A]";
+
     case type_id<bool>::value:
         return std::string("[bool:") + (v.get<bool>().value() ? "true]" : "false]");
 
@@ -260,14 +180,15 @@ std::string to_string<variant>(variant const& v) {
         CASE_TO_STRING(double);
         CASE_TO_STRING(std::string);
         CASE_TO_STRING(const char*);
-        CASE_TO_STRING(microseconds);
-        CASE_TO_STRING(days);
-        CASE_TO_STRING(date);
-        CASE_TO_STRING(daytime);
-        CASE_TO_STRING(datetime);
+
+        CASE_TO_STRING(time::delta);
+        CASE_TO_STRING(time::days);
+        CASE_TO_STRING(time::date);
+        CASE_TO_STRING(time::daytime);
+        CASE_TO_STRING(time::stamp);
 
     default:
-        return "[unknown variant]";
+        return "[UNK_VAR:" + std::to_string(v.id()) + "]";
     }
 }
 

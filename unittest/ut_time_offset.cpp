@@ -1,14 +1,20 @@
 #include <gtest/gtest.h>
 
-#include "com/time_offset.hpp"
+#include <ctime>    // time, gmtime, localtime
+
+#include "time/offset.hpp"
 
 using namespace std::chrono_literals;
-using miu::com::microseconds;
-using miu::com::time_offset;
 
-TEST(ut_time_offset, set_and_get) {
-    EXPECT_EQ(microseconds(0), time_offset::get());
+TEST(ut_time_offset, init) {
+    using miu::time::offset;
 
-    time_offset::set(1h);
-    EXPECT_EQ(1h, time_offset::get());
+    auto utc = std::time(nullptr);
+    auto loc = std::localtime(&utc);
+    auto off = std::chrono::seconds(loc->tm_gmtoff);
+    EXPECT_EQ(off, offset::get());
+
+    offset::set(4h);
+    EXPECT_EQ(4h, offset::get());
+    offset::set(off);    // restore
 }
