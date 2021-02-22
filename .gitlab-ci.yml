@@ -25,6 +25,7 @@ delivery:
         INC_PATH: "$MIU_PATH/include"
         DBG_PATH: "$MIU_PATH/lib-dbg"
         REL_PATH: "$MIU_PATH/lib-rel"
+        BIN_PATH: "$MIU_PATH/binaries"
         UT_PATH: "$MIU_PATH/unittest"
     script:
         - ./build debug
@@ -35,6 +36,8 @@ delivery:
         - cp -frv ./include/com $INC_PATH
         - rm -fr $INC_PATH/meta
         - cp -frv ./include/meta $INC_PATH
+        - rm -fr $INC_PATH/time
+        - cp -frv ./include/time $INC_PATH
 
         - mkdir -p $DBG_PATH
         - cp -fv debug/libcom.a $DBG_PATH
