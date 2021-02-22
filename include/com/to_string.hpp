@@ -25,3 +25,4 @@ DEF_TO_STRING(const char*);
 DEF_TO_STRING(char*);
 DEF_TO_STRING(std::string);
 DEF_TO_STRING(std::string_view);
+DEF_TO_STRING(wchar_t);

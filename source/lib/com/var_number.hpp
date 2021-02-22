@@ -1,6 +1,6 @@
 #pragma once
 
-#include "com/date.hpp"
+#include "time/stamp.hpp"
 
 #include "var_casting.hpp"
 
@@ -21,11 +21,11 @@ class var_number : public var_casting<target_type> {
         accept<uint32_t>();
         accept<uint64_t>();
 
-        accept_chrono<days>();
-        accept_chrono<microseconds>();
-        accept_chrono<date>();
-        accept_chrono<daytime>();
-        accept_chrono<datetime>();
+        accept_chrono<time::days>();
+        accept_chrono<time::delta>();
+        accept_chrono<time::date>();
+        accept_chrono<time::daytime>();
+        accept_chrono<time::stamp>();
 
         accept_string<const char*>();
         accept_string<std::string>();

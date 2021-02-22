@@ -2,9 +2,6 @@
 
 #include <optional>
 
-#include "date.hpp"
-#include "datetime.hpp"
-#include "daytime.hpp"
 #include "predict.hpp"
 #include "system_warn.hpp"
 #include "to_string.hpp"
@@ -91,9 +88,3 @@ DEF_VARIANT(const char*, 13);
 
 DEF_VARIANT(wchar_t, 14);
 DEF_VARIANT(const wchar_t*, 15);
-
-DEF_VARIANT(miu::com::microseconds, 16);
-DEF_VARIANT(miu::com::days, 17);
-DEF_VARIANT(miu::com::date, 18);
-DEF_VARIANT(miu::com::daytime, 19);
-DEF_VARIANT(miu::com::datetime, 20);

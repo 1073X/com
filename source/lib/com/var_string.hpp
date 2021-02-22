@@ -1,10 +1,6 @@
 #pragma once
 
-#include "com/date.hpp"
-#include "com/datetime.hpp"
-#include "com/days.hpp"
-#include "com/daytime.hpp"
-#include "com/microseconds.hpp"
+#include "time/stamp.hpp"
 
 #include "var_casting.hpp"
 
@@ -30,11 +26,12 @@ class var_string : public var_casting<std::string> {
         accept<uint64_t>();
         accept<float>();
         accept<double>();
-        accept<days>();
-        accept<microseconds>();
-        accept<date>();
-        accept<daytime>();
-        accept<datetime>();
+
+        accept<time::days>();
+        accept<time::delta>();
+        accept<time::date>();
+        accept<time::daytime>();
+        accept<time::stamp>();
     }
 
   private:

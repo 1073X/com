@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "com/variant.hpp"
+#include "time/stamp.hpp"
 
 using miu::com::type_id;
 
@@ -31,11 +32,11 @@ TEST(ut_type_id, primitive_type) {
     EXPECT_EQ(14U, type_id<wchar_t>::value);
     EXPECT_EQ(15U, type_id<const wchar_t*>::value);
 
-    EXPECT_EQ(16U, type_id<miu::com::microseconds>::value);
-    EXPECT_EQ(17U, type_id<miu::com::days>::value);
-    EXPECT_EQ(18U, type_id<miu::com::date>::value);
-    EXPECT_EQ(19U, type_id<miu::com::daytime>::value);
-    EXPECT_EQ(20U, type_id<miu::com::datetime>::value);
+    EXPECT_EQ(16U, type_id<miu::time::days>::value);
+    EXPECT_EQ(17U, type_id<miu::time::delta>::value);
+    EXPECT_EQ(18U, type_id<miu::time::date>::value);
+    EXPECT_EQ(19U, type_id<miu::time::daytime>::value);
+    EXPECT_EQ(20U, type_id<miu::time::stamp>::value);
 }
 
 struct custom {};

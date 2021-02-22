@@ -4,7 +4,6 @@
 
 #include "meta/info.hpp"
 
-#include "datetime.hpp"
 #include "strcat.hpp"
 
 namespace miu::com {
