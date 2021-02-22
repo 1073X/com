@@ -1,12 +1,12 @@
 #pragma once
 
-#include "clock.hpp"
+#include "delta.hpp"
 
 namespace miu::time {
 
 struct offset {
-    static clock::duration get();
-    static void set(clock::duration);
+    static delta get();
+    static void set(delta);
 };
 
 }    // namespace miu::time
