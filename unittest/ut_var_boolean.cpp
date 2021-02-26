@@ -39,3 +39,9 @@ TYPED_TEST(ut_var_boolean, false) {
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_FALSE(var.get<target_type>().value());
 }
+
+TEST(ut_var_boolean, from_string) {
+    EXPECT_TRUE(variant { std::string("true") }.get<bool>().value());
+    EXPECT_FALSE(variant { +"False" }.get<bool>().value());
+    EXPECT_ANY_THROW(variant { std::string("xxx") }.get<bool>().value());
+}
