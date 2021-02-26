@@ -16,6 +16,18 @@ TEST(ut_time, today) {
     EXPECT_EQ(t2.time_since_epoch() / 24h, t1.time_since_epoch().count());
 }
 
+TEST(ut_time, yesterday) {
+    auto t1 = miu::time::yesterday();
+    auto t2 = std::chrono::system_clock::now() - 24h;
+    EXPECT_EQ(t2.time_since_epoch() / 24h, t1.time_since_epoch().count());
+}
+
+TEST(ut_time, tomorrow) {
+    auto t1 = miu::time::tomorrow();
+    auto t2 = std::chrono::system_clock::now() + 24h;
+    EXPECT_EQ(t2.time_since_epoch() / 24h, t1.time_since_epoch().count());
+}
+
 TEST(ut_time, now_of_day) {
     auto t1 = miu::time::now_of_day();
     auto t2 = std::chrono::system_clock::now().time_since_epoch() % 24h;
