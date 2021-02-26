@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <string>    // std::strtod
 
 #include "time/stamp.hpp"
 
@@ -28,6 +29,9 @@ class var_decimal : public var_casting<target_type> {
         accept_time<time::date>();
         accept_time<time::daytime>();
         accept_time<time::stamp>();
+
+        accept_str<const char*>();
+        accept_str<std::string>();
     }
 
   private:
@@ -56,6 +60,22 @@ class var_decimal : public var_casting<target_type> {
         this->support(type_id<source_type>::value, [](auto var) {
             auto src_val = *(typename source_type::rep const*)var;
             return std::optional<target_type> { src_val };
+        });
+    }
+
+    template<typename source_type>
+    void accept_str() {
+        this->support(type_id<source_type>::value, [](auto var) -> std::optional<target_type> {
+            try {
+                auto str = var->template get<const char*>().value();
+                return std::strtod(str, 0);
+            } catch (std::invalid_argument const& err) {
+                SYSTEM_WARN(err.what());
+                return std::nullopt;
+            } catch (std::out_of_range const& err) {
+                SYSTEM_WARN(err.what());
+                return std::nullopt;
+            }
         });
     }
 };
