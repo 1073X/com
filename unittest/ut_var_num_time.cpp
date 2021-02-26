@@ -59,11 +59,11 @@ using pairs = testing::Types<std::pair<int8_t, days>,
 
 //////////////////////////////////////////////
 template<typename>
-struct ut_var_num_chrono : public testing::Test {};
+struct ut_var_num_time : public testing::Test {};
 
-TYPED_TEST_SUITE(ut_var_num_chrono, pairs);
+TYPED_TEST_SUITE(ut_var_num_time, pairs);
 
-TYPED_TEST(ut_var_num_chrono, num_to_chrono) {
+TYPED_TEST(ut_var_num_time, num_to_time) {
     using source_type = typename TypeParam::first_type;
     using target_type = typename TypeParam::second_type;
 
@@ -72,7 +72,7 @@ TYPED_TEST(ut_var_num_chrono, num_to_chrono) {
     EXPECT_EQ(target_type(123), var.get<target_type>());
 }
 
-TYPED_TEST(ut_var_num_chrono, chrono_to_num) {
+TYPED_TEST(ut_var_num_time, time_to_num) {
     using target_type = typename TypeParam::first_type;
     using source_type = typename TypeParam::second_type;
 

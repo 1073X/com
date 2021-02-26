@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "time/stamp.hpp"
+
 #include "var_casting.hpp"
 
 namespace miu::com {
@@ -20,6 +22,12 @@ class var_decimal : public var_casting<target_type> {
         accept<uint64_t>();
         accept<float>();
         accept<double>();
+
+        accept_time<time::days>();
+        accept_time<time::delta>();
+        accept_time<time::date>();
+        accept_time<time::daytime>();
+        accept_time<time::stamp>();
     }
 
   private:
@@ -41,6 +49,14 @@ class var_decimal : public var_casting<target_type> {
     template<typename source_type>
     void accept() {
         this->support(type_id<source_type>::value, &to_decimal<source_type>);
+    }
+
+    template<typename source_type>
+    void accept_time() {
+        this->support(type_id<source_type>::value, [](auto var) {
+            auto src_val = *(typename source_type::rep const*)var;
+            return std::optional<target_type> { src_val };
+        });
     }
 };
 
