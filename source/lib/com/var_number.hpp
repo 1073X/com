@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>    // std::strtoll
+
 #include "time/stamp.hpp"
 
 #include "var_casting.hpp"
@@ -168,34 +170,21 @@ class var_number : public var_casting<target_type> {
                                   <= std::numeric_limits<target_type>::digits;
         auto func = &action<is_source_signed, is_target_signed, is_promoted, source_type>::cast;
         this->support(type_id<string_type>::value, [func](auto var) -> std::optional<target_type> {
-            auto str = var->template get<std::string>().value();
-            if (str.empty()) {
+            try {
+                auto str = var->template get<const char*>().value();
+                auto tmp = variant { static_cast<source_type>(std::stoll(str, 0)) };
+                auto val = func(&tmp);
+                if (val) {
+                    return target_type { val.value() };
+                }
+                return std::nullopt;
+            } catch (std::invalid_argument const& err) {
+                SYSTEM_WARN(err.what());
+                return std::nullopt;
+            } catch (std::out_of_range const& err) {
+                SYSTEM_WARN(err.what());
                 return std::nullopt;
             }
-
-            auto it   = str.begin();
-            auto sign = 1;
-            if (*it == '-') {
-                sign = -1;
-                it++;
-            }
-
-            auto src = (source_type)0;
-            while (it < str.end()) {
-                if (!std::isdigit(*it)) {
-                    return std::nullopt;
-                }
-                src *= 10;
-                src += *it - '0';
-                it++;
-            }
-
-            auto tmp = variant(src * sign);
-            auto val = func(&tmp);
-            if (val) {
-                return target_type { val.value() };
-            }
-            return std::nullopt;
         });
     }
 
