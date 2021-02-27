@@ -60,7 +60,7 @@ TEST(ut_variant, to_string) {
     EXPECT_EQ("[uint32_t:1]", to_string(variant((uint32_t)1)));
     EXPECT_EQ("[uint64_t:1]", to_string(variant((uint64_t)1)));
     EXPECT_EQ("[float:1.200000]", to_string(variant((float)1.2)));
-    EXPECT_EQ("[double:1.200000]", to_string(variant(1.2)));
+    EXPECT_EQ("[double:1.2]", to_string(variant(1.2)));
     EXPECT_EQ("[const char*:a b c]", to_string(variant(+"a b c")));
     EXPECT_EQ("[std::string:a b c]", to_string(variant(std::string("a b c"))));
 
