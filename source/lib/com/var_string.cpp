@@ -43,16 +43,21 @@ var_string::var_string() {
     accept<time::stamp>();
 }
 
+bool var_string::enroll(uint8_t type_id, var_str_func const& func) {
+    support(type_id, [func](auto var) -> std::optional<std::string> { return func(var); });
+    return true;
+}
+
 var_string var_string::_instance;
 
-void reg_var_str(uint8_t type_id, std::function<std::string(variant const*)> const& func) {
-    var_string::instance()->accept(type_id, func);
+bool reg_var_str(uint8_t type_id, var_str_func const& func) {
+    return var_string::instance()->enroll(type_id, func);
 }
 
 }    // namespace miu::com
 
 DEF_VAR_GET(std::string) {
-    return var_string::instance()->cast(this);
+    return var_string::instance()->operator()(this);
 }
 
 DEF_VAR_SET(char) {
