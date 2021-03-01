@@ -94,14 +94,10 @@ DEF_TO_STRING(custom) {
 }
 
 TEST(ut_variant, custom_type) {
+    miu::com::reg_var_str<custom>();
+
     EXPECT_EQ(132, type_id<custom>::value);
     EXPECT_EQ("132:custom", type_id<custom>::name());
-
-    auto func = [](auto var) {
-        auto val = var->template get<custom>();
-        return miu::com::to_string(val.value());
-    };
-    miu::com::reg_var_str(132, func);
 
     auto var = variant { custom() };
     EXPECT_EQ(132, var.id());

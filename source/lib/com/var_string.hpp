@@ -1,5 +1,6 @@
 #pragma once
 
+#include "com/reg_var_str.hpp"
 #include "time/stamp.hpp"
 
 #include "var_casting.hpp"
@@ -10,11 +11,7 @@ class var_string : public var_casting<std::string> {
   public:
     static auto instance() { return &_instance; }
 
-    auto cast(variant const* var) const { return operator()(var); }
-
-    void accept(uint8_t type_id, std::function<std::string(variant const*)> const& func) {
-        support(type_id, [func](auto var) -> std::optional<std::string> { return func(var); });
-    }
+    bool enroll(uint8_t type_id, var_str_func const&);
 
   private:
     var_string();
