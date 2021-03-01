@@ -2,7 +2,6 @@
 
 #include "com/variant.hpp"
 
-using miu::com::type_id;
 using miu::com::variant;
 
 template<typename>
@@ -24,6 +23,5 @@ TYPED_TEST(ut_var_string, test) {
 
     source_type val = +"abcdefg";
     variant var { val };
-    EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_EQ(std::string_view("abcdefg"), var.get<target_type>());
 }

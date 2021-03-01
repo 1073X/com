@@ -36,5 +36,4 @@ class stamp : public clock::time_point {
 
 }    // namespace miu::time
 
-DEF_VARIANT(miu::time::stamp, 20);
-DEF_TO_STRING(miu::time::stamp);
+DEF_VARIANT(miu::time::stamp, 21);

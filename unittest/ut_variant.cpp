@@ -72,7 +72,7 @@ TEST(ut_variant, to_string) {
     EXPECT_EQ("[time::stamp:20210129 12:10:30.001]",
               to_string(variant(miu::time::stamp(2021, 1, 29, 12, 10, 30, 1))));
 
-    EXPECT_EQ("[UNK_VAR:14]", to_string(variant(L'害')));
+    EXPECT_EQ("[UNK_VAR:15]", to_string(variant(L'害')));
 
     EXPECT_EQ("[void:N/A]", to_string(variant()));
 }

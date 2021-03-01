@@ -36,15 +36,18 @@ class var_boolean : public var_casting<bool> {
     template<typename source_type>
     void accept_string() {
         auto func = [](variant const* var) -> std::optional<bool> {
+            auto constexpr trans = [](auto ch) { return std::toupper(ch); };
+
             auto str = var->get<std::string>().value();
-            std::transform(
-                str.begin(), str.end(), str.begin(), [](auto ch) { return std::toupper(ch); });
+            std::transform(str.begin(), str.end(), str.begin(), trans);
+
+            std::optional<bool> ret;
             if ("TRUE" == str) {
-                return true;
+                ret = std::make_optional(true);
             } else if ("FALSE" == str) {
-                return false;
+                ret = std::make_optional(false);
             }
-            return std::nullopt;
+            return ret;
         };
         support(type_id<source_type>::value, func);
     }

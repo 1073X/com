@@ -49,4 +49,3 @@ TEST(ut_time_stamp, variant) {
     auto exp = stamp { str };
     EXPECT_EQ(exp, variant { str }.get<stamp>());
 }
-

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>     // std::round
 #include <string>    // std::strtoll
 
 #include "time/stamp.hpp"
@@ -54,10 +55,10 @@ class var_number : public var_casting<target_type> {
             auto val = *(source_type const*)var;
             if (val < 0) {
                 SYSTEM_WARN("NEGATIVE",
-                            type_id<source_type>::name,
+                            type_id<source_type>::name(),
                             (int64_t)val,
                             "cannot be",
-                            type_id<target_type>::name);
+                            type_id<target_type>::name());
                 return std::nullopt;
             }
             return val;
@@ -72,10 +73,10 @@ class var_number : public var_casting<target_type> {
             auto val = *(source_type const*)var;
             if (val > std::numeric_limits<target_type>::max()) {
                 SYSTEM_WARN("OVERFLOW",
-                            type_id<source_type>::name,
+                            type_id<source_type>::name(),
                             (uint64_t)val,
                             "cannot be",
-                            type_id<target_type>::name);
+                            type_id<target_type>::name());
                 return std::nullopt;
             }
             return val;
@@ -90,16 +91,16 @@ class var_number : public var_casting<target_type> {
             auto val                       = *(source_type const*)var;
             if (val > std::numeric_limits<target_type>::max()) {
                 SYSTEM_WARN("OVERFLOW",
-                            type_id<source_type>::name,
+                            type_id<source_type>::name(),
                             (int64_t)val,
                             "cannot be",
-                            type_id<target_type>::name);
+                            type_id<target_type>::name());
             } else if (val < std::numeric_limits<target_type>::min()) {
                 SYSTEM_WARN("UNDERFLOW",
-                            type_id<source_type>::name,
+                            type_id<source_type>::name(),
                             (int64_t)val,
                             "cannot be",
-                            type_id<target_type>::name);
+                            type_id<target_type>::name());
             } else {
                 opt = val;
             }
@@ -115,16 +116,16 @@ class var_number : public var_casting<target_type> {
             auto val                       = *(source_type const*)var;
             if (val > std::numeric_limits<target_type>::max()) {
                 SYSTEM_WARN("OVERFLOW",
-                            type_id<source_type>::name,
+                            type_id<source_type>::name(),
                             (int64_t)val,
                             "cannot be",
-                            type_id<target_type>::name);
+                            type_id<target_type>::name());
             } else if (val < 0) {
                 SYSTEM_WARN("NEGATIVE",
-                            type_id<source_type>::name,
+                            type_id<source_type>::name(),
                             (int64_t)val,
                             "cannot be",
-                            type_id<target_type>::name);
+                            type_id<target_type>::name());
             } else {
                 opt = val;
             }

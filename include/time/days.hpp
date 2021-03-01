@@ -24,5 +24,4 @@ static_assert(sizeof(int32_t) == sizeof(days));
 
 }    // namespace miu::time
 
-DEF_VARIANT(miu::time::days, 16);
-DEF_TO_STRING(miu::time::days);
+DEF_VARIANT(miu::time::days, 17);

@@ -5,16 +5,9 @@
 #include "predict.hpp"
 #include "system_warn.hpp"
 #include "to_string.hpp"
+#include "type_id.hpp"
 
 namespace miu::com {
-
-template<typename T = void>
-struct type_id {
-    static uint8_t constexpr value { 255 };
-    inline static const char* name { "255:void" };
-};
-
-static const uint8_t CUSTOM_TYPE_ID = 32;
 
 class variant {
   public:
@@ -39,7 +32,7 @@ class variant {
 
   private:
     template<typename T>
-    void set(T const& v);
+    void set(T const&);
 
     auto extra() const { return _extra; }
 
@@ -54,37 +47,38 @@ static_assert(sizeof(variant) == 16);
 
 DEF_TO_STRING(miu::com::variant);
 
-#define DEF_VARIANT(TYPE, ID)                             \
-    template<>                                            \
-    struct miu::com::type_id<TYPE> {                      \
-        static uint8_t constexpr value { ID };            \
-        inline static const char* name { #ID ":" #TYPE }; \
-    };                                                    \
-    template<>                                            \
-    void miu::com::variant::set<TYPE>(TYPE const&);       \
-    template<>                                            \
+#define DEF_VAR_SET(TYPE) \
+    template<>            \
+    void miu::com::variant::set<TYPE>(TYPE const& v)
+#define DEF_VAR_GET(TYPE) \
+    template<>            \
     std::optional<TYPE> miu::com::variant::get<TYPE>() const
+#define DEF_VARIANT(TYPE, ID) \
+    DEF_VAR_SET(TYPE);        \
+    DEF_VAR_GET(TYPE);        \
+    DEF_TYPE_ID(TYPE, ID);    \
+    DEF_TO_STRING(TYPE)
 
 DEF_VARIANT(std::string, 0);
-DEF_VARIANT(std::string_view, 0);
+DEF_VARIANT(std::string_view, 1);
 
-DEF_VARIANT(bool, 1);
+DEF_VARIANT(bool, 2);
 
-DEF_VARIANT(int8_t, 2);
-DEF_VARIANT(int16_t, 3);
-DEF_VARIANT(int32_t, 4);
-DEF_VARIANT(int64_t, 5);
+DEF_VARIANT(int8_t, 3);
+DEF_VARIANT(int16_t, 4);
+DEF_VARIANT(int32_t, 5);
+DEF_VARIANT(int64_t, 6);
 
-DEF_VARIANT(uint8_t, 6);
-DEF_VARIANT(uint16_t, 7);
-DEF_VARIANT(uint32_t, 8);
-DEF_VARIANT(uint64_t, 9);
+DEF_VARIANT(uint8_t, 7);
+DEF_VARIANT(uint16_t, 8);
+DEF_VARIANT(uint32_t, 9);
+DEF_VARIANT(uint64_t, 10);
 
-DEF_VARIANT(float, 10);
-DEF_VARIANT(double, 11);
+DEF_VARIANT(float, 11);
+DEF_VARIANT(double, 12);
 
-DEF_VARIANT(char, 12);
-DEF_VARIANT(const char*, 13);
+DEF_VARIANT(char, 13);
+DEF_VARIANT(const char*, 14);
 
-DEF_VARIANT(wchar_t, 14);
-DEF_VARIANT(const wchar_t*, 15);
+DEF_VARIANT(wchar_t, 15);
+DEF_VARIANT(const wchar_t*, 16);

@@ -24,7 +24,7 @@ date tomorrow() {
     return { today().time_since_epoch().count() + 1 };
 }
 
-daytime now_of_day() {
+daytime time_of_day() {
     return now().time();
 }
 

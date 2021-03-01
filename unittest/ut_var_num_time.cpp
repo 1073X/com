@@ -4,7 +4,6 @@
 #include "time/stamp.hpp"
 
 using namespace std::chrono_literals;
-using miu::com::type_id;
 using miu::com::variant;
 using miu::time::date;
 using miu::time::days;
@@ -80,4 +79,3 @@ TYPED_TEST(ut_var_num_time, time_to_num) {
     auto var = variant { val };
     EXPECT_EQ(target_type(123), var.get<target_type>());
 }
-

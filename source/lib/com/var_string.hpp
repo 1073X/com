@@ -9,12 +9,11 @@ namespace miu::com {
 class var_string : public var_casting<std::string> {
   public:
     var_string() {
-        support(type_id<std::string>::value,
-                [](auto var) -> std::optional<std::string> { return (const char*)var; });
+        auto func = [](auto var) -> std::optional<std::string> { return (const char*)var; };
+        support(type_id<std::string>::value, func);
+        support(type_id<std::string_view>::value, func);
 
-        support(type_id<const char*>::value, [](auto var) -> std::optional<std::string> {
-            return (const char*)*(uint64_t const*)var;
-        });
+        accept<bool>();
 
         accept<int8_t>();
         accept<int16_t>();
@@ -26,6 +25,9 @@ class var_string : public var_casting<std::string> {
         accept<uint64_t>();
         accept<float>();
         accept<double>();
+
+        accept<char>();
+        accept<const char*>();
 
         accept<time::days>();
         accept<time::delta>();
