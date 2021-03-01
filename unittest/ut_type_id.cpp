@@ -47,10 +47,3 @@ TEST(ut_type_id, managed_type) {
     EXPECT_EQ(255, type_id<managed_type<255>::type>::value);
 }
 
-struct custom {};
-DEF_VARIANT(custom, 132);
-
-TEST(ut_type_id, custom_type) {
-    EXPECT_EQ(132, type_id<custom>::value);
-    EXPECT_EQ("132:custom", type_id<custom>::name());
-}

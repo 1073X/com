@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include "com/reg_var_str.hpp"
 #include "com/variant.hpp"
 #include "time/stamp.hpp"
 
@@ -75,4 +76,34 @@ TEST(ut_variant, to_string) {
     EXPECT_EQ("[UNK_VAR:15]", to_string(variant(L'害')));
 
     EXPECT_EQ("[void:N/A]", to_string(variant()));
+}
+
+struct custom {};
+DEF_VARIANT(custom, 132);
+
+DEF_VAR_SET(custom) {
+    new (_value) custom { v };
+}
+
+DEF_VAR_GET(custom) {
+    return *(custom const*)_value;
+}
+
+DEF_TO_STRING(custom) {
+    return "custom";
+}
+
+TEST(ut_variant, custom_type) {
+    EXPECT_EQ(132, type_id<custom>::value);
+    EXPECT_EQ("132:custom", type_id<custom>::name());
+
+    auto func = [](auto var) {
+        auto val = var->template get<custom>();
+        return miu::com::to_string(val.value());
+    };
+    miu::com::reg_var_str(132, func);
+
+    auto var = variant { custom() };
+    EXPECT_EQ(132, var.id());
+    EXPECT_EQ("custom", var.get<std::string>());
 }

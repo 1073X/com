@@ -14,11 +14,45 @@ variant::variant(std::string const& v)
 variant::variant(std::string_view const& v)
     : variant(std::string { v }) {    // treat string_view as string
 }
+
+var_string::var_string() {
+    auto func = [](auto var) -> std::optional<std::string> { return (const char*)var; };
+    support(type_id<std::string>::value, func);
+    support(type_id<std::string_view>::value, func);
+
+    accept<bool>();
+
+    accept<int8_t>();
+    accept<int16_t>();
+    accept<int32_t>();
+    accept<int64_t>();
+    accept<uint8_t>();
+    accept<uint16_t>();
+    accept<uint32_t>();
+    accept<uint64_t>();
+    accept<float>();
+    accept<double>();
+
+    accept<char>();
+    accept<const char*>();
+
+    accept<time::days>();
+    accept<time::delta>();
+    accept<time::date>();
+    accept<time::daytime>();
+    accept<time::stamp>();
+}
+
+var_string var_string::_instance;
+
+void reg_var_str(uint8_t type_id, std::function<std::string(variant const*)> const& func) {
+    var_string::instance()->accept(type_id, func);
+}
+
 }    // namespace miu::com
 
 DEF_VAR_GET(std::string) {
-    static var_string cast;
-    return cast(this);
+    return var_string::instance()->cast(this);
 }
 
 DEF_VAR_SET(char) {

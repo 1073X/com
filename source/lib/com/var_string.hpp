@@ -8,41 +8,25 @@ namespace miu::com {
 
 class var_string : public var_casting<std::string> {
   public:
-    var_string() {
-        auto func = [](auto var) -> std::optional<std::string> { return (const char*)var; };
-        support(type_id<std::string>::value, func);
-        support(type_id<std::string_view>::value, func);
+    static auto instance() { return &_instance; }
 
-        accept<bool>();
+    auto cast(variant const* var) const { return operator()(var); }
 
-        accept<int8_t>();
-        accept<int16_t>();
-        accept<int32_t>();
-        accept<int64_t>();
-        accept<uint8_t>();
-        accept<uint16_t>();
-        accept<uint32_t>();
-        accept<uint64_t>();
-        accept<float>();
-        accept<double>();
-
-        accept<char>();
-        accept<const char*>();
-
-        accept<time::days>();
-        accept<time::delta>();
-        accept<time::date>();
-        accept<time::daytime>();
-        accept<time::stamp>();
+    void accept(uint8_t type_id, std::function<std::string(variant const*)> const& func) {
+        support(type_id, [func](auto var) -> std::optional<std::string> { return func(var); });
     }
 
   private:
+    var_string();
+
     template<typename source_type>
     void accept() {
-        support(type_id<source_type>::value, [](auto var) -> std::optional<std::string> {
-            return to_string(*(source_type const*)var);
-        });
+        auto id = type_id<source_type>::value;
+        support(id, [](auto var) { return to_string(*(source_type const*)var); });
     }
+
+  private:
+    static var_string _instance;
 };
 
 }    // namespace miu::com
