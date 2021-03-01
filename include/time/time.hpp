@@ -6,7 +6,7 @@ namespace miu::time {
 
 extern stamp now();
 
-extern daytime now_of_day();
+extern daytime time_of_day();
 
 extern date yesterday();
 extern date today();

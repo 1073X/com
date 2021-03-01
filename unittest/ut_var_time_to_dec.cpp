@@ -36,4 +36,3 @@ TYPED_TEST(ut_var_time_to_dec, cast) {
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_DOUBLE_EQ(123.0, var.get<target_type>().value());
 }
-

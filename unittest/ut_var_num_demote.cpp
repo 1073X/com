@@ -59,4 +59,3 @@ TYPED_TEST(ut_var_num_demote, overflow) {
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_FALSE(var.get<target_type>().has_value());
 }
-

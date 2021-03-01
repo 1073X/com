@@ -1,8 +1,8 @@
 #pragma once
 
+#include <array>
 #include <functional>
 #include <optional>
-#include <vector>
 
 #include "com/variant.hpp"
 
@@ -11,12 +11,13 @@ namespace miu::com {
 template<typename target_type>
 class var_casting {
   public:
-    std::optional<target_type> operator()(variant const* var) const {
-        if (var->id() < _vec.size()) {
-            return _vec[var->id()](var);
+    var_casting() {
+        for (auto& func : _vec) {
+            func = &unsupport;
         }
-        return std::nullopt;
     }
+
+    std::optional<target_type> operator()(variant const* var) const { return _vec[var->id()](var); }
 
   protected:
     using func_type = std::function<std::optional<target_type>(variant const*)>;
@@ -25,12 +26,12 @@ class var_casting {
 
   private:
     static std::optional<target_type> unsupport(variant const* var) {
-        SYSTEM_WARN("UNSUPPORTED", var->id(), ":some_type cannot be", type_id<target_type>::name);
+        SYSTEM_WARN("variant(", var->id(), ") is not", type_id<target_type>::name());
         return std::nullopt;
     }
 
   private:
-    std::vector<func_type> _vec { CUSTOM_TYPE_ID, &unsupport };
+    std::array<func_type, 256> _vec;
 };
 
 }    // namespace miu::com

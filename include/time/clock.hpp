@@ -9,7 +9,7 @@ struct clock {
     using rep        = duration::rep;
     using period     = duration::period;
     using time_point = std::chrono::time_point<clock>;
-    enum { is_steady = false };
+    static bool is_steady;
     static time_point now();
 };
 

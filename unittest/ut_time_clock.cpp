@@ -27,4 +27,3 @@ TEST(ut_time_clock, now) {
     auto t2 = miu::time::clock::now().time_since_epoch();
     EXPECT_LE(miu::time::offset::get(), t2 - t1);
 }
-

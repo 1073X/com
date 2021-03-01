@@ -66,4 +66,3 @@ TEST(ut_time_daytime, variant) {
 
     EXPECT_FALSE(variant { 1.2 }.get<daytime>());
 }
-

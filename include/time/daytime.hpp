@@ -3,7 +3,7 @@
 #include <tuple>
 
 #include "clock.hpp"
-#include "delta.hpp"
+#include "date.hpp"
 
 namespace miu::time {
 
@@ -21,5 +21,4 @@ static_assert(sizeof(int32_t) == sizeof(daytime));
 
 }    // namespace miu::time
 
-DEF_VARIANT(miu::time::daytime, 19);
-DEF_TO_STRING(miu::time::daytime);
+DEF_VARIANT(miu::time::daytime, 20);

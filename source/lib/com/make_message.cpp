@@ -15,4 +15,3 @@ std::string make_message(std::string_view type) {
 }
 
 }    // namespace miu::com
-

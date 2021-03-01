@@ -2,8 +2,7 @@
 
 #include <chrono>
 
-#include "com/to_string.hpp"
-#include "com/variant.hpp"
+#include "days.hpp"
 
 namespace miu::time {
 
@@ -24,5 +23,4 @@ static_assert(sizeof(int32_t) == sizeof(delta));
 
 }    // namespace miu::time
 
-DEF_VARIANT(miu::time::delta, 17);
-DEF_TO_STRING(miu::time::delta);
+DEF_VARIANT(miu::time::delta, 18);

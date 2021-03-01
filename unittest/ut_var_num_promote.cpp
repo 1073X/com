@@ -98,4 +98,3 @@ TYPED_TEST(ut_var_num_promote, can_cover_source_lowest) {
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_DOUBLE_EQ((target_type)val, var.get<target_type>().value());
 }
-

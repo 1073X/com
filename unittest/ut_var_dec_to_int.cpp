@@ -75,4 +75,3 @@ TYPED_TEST(ut_var_dec_to_int, precision) {
     EXPECT_EQ(type_id<source_type>::value, var.id());
     EXPECT_FALSE(var.get<target_type>().has_value());
 }
-

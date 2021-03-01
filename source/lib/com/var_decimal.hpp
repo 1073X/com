@@ -41,10 +41,10 @@ class var_decimal : public var_casting<target_type> {
         auto tag_val = static_cast<target_type>(src_val);
         if (std::fabs(tag_val - src_val) > 0.0000001) {
             SYSTEM_WARN("PRECISION",
-                        type_id<source_type>::name,
+                        type_id<source_type>::name(),
                         src_val,
                         "cannot be",
-                        type_id<target_type>::name);
+                        type_id<target_type>::name());
             return std::nullopt;
         }
         return tag_val;
