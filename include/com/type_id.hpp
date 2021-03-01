@@ -3,11 +3,11 @@
 #include <string>
 #include <tuple>
 
+static const uint8_t CUSTOM_TYPE_ID = 32;
+
 namespace miu::com {
 
 /// define type_id
-static const uint8_t CUSTOM_TYPE_ID = 32;
-
 template<typename>
 struct type_id;
 
